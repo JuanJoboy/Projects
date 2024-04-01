@@ -9,9 +9,9 @@ public class Jigsaw
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
         String name, stringResponse, fingers, message, randomString2, randomChar2;
-        double numOne, numTwo, answer;
+        double numOne, numTwo;
         char response, menuPicker, playAgain;
-        int response2, response3, randomNum;
+        int response2, response3, randomNum, answer;
         boolean close = false;
 
         double userWins = 0;
@@ -72,7 +72,8 @@ public class Jigsaw
                 case "y":
 
                     while (!close)
-                    {   do
+                    {
+                        do
                         {
                             System.out.println("\nFrom the menu below pick a game");
                             System.out.println("\t> 1. How many fingers am I putting up? ");
@@ -129,7 +130,7 @@ public class Jigsaw
                                             System.out.println("\nWhy are you like this " + name + "? HOW WOULD I HAVE A NEGATIVE AMOUNT OF FINGERS!!");
                                         }
                                     } while (response2 < 0 || response2 > 10);
-                                    randomNum = random.nextInt(2); // This will generate a number from the range 0-10
+                                    randomNum = random.nextInt(11); // This will generate a number from the range 0-10
 
                                     if (randomNum == 1 && response2 == randomNum) //Not super necessary but makes the word 'finger' singular instead of plural since the computer only has 1 finger up
                                     {
@@ -413,7 +414,7 @@ public class Jigsaw
                                         {
                                             if (!message.matches("\\w+(?: \\w+)*"))
                                             { // Allows letters, digits, and underscores
-                                                System.out.println("Now why on Earth would you ever type that " + name + "? Were you dropped on your head as a child?");
+                                                System.out.println("Type normally please " + name);
                                             }
                                         }
                                         
@@ -424,7 +425,7 @@ public class Jigsaw
 
                                         if (("Mu").equalsIgnoreCase(message) || "Thoth".equalsIgnoreCase(message) || "Atlantis".equalsIgnoreCase(message))
                                         {
-                                            System.out.println("BRUH SHUT UP AND PUT A REAL CONTINENT!");
+                                            System.out.println("Enter a REAL continent");
                                         }
                                         
                                     } while ((!Character.isUpperCase(message.charAt(0)) || (message.length() > 1 && Character.isUpperCase(message.charAt(1))) || !Arrays.asList(continents).contains(message)) || !message.matches("\\w+(?: \\w+)*") && !message.matches("[a-zA-Z]+") || message.matches("[0-9]+"));
@@ -1022,26 +1023,43 @@ public class Jigsaw
                             case 4:
                                 System.out.println("\nThanks for playing, " + name + "!");
                                 System.out.println("Final tally:");
-                                
-                                System.out.println("\n" + name + "'s Finger Guessing Game wins: " + finUserWins);
-                                System.out.println("System's Finger Guessing Game wins: " + finSystemWins);
-                                System.out.println("Total Finger Guessing Games played: " + finNumGames);
-                                System.out.println("You won " + (finUserWins / finNumGames)*100 + "% of games and lost " + (finSystemWins / finNumGames)*100 + "% of games");
+                                int percGameUser, percGameSys, percGameDraw;
+                             
+                                percGameUser = (int)((finUserWins / finNumGames) * 100);
+                                percGameSys = (int)((finSystemWins / finNumGames) * 100);
+                                System.out.println("\nFinger Guessing Game");
+                                System.out.println(name + "'s wins: " + finUserWins);
+                                System.out.println("System's wins: " + finSystemWins);
+                                System.out.println("Games played: " + finNumGames);
+                                System.out.println("You won " + percGameUser + "% of games and lost " + percGameSys + "% of games");
 
-                                System.out.println("\n" + name + "'s Continent Guessing Game wins: " + conUserWins);
-                                System.out.println("System's Continent Guessing Game wins: " + conSystemWins);
-                                System.out.println("Total Continent Guessing Games played: " + conNumGames);
-                                System.out.println("You won " + (conUserWins / conNumGames)*100 + "% of games and lost " + (conSystemWins / conNumGames)*100 + "% of games");
+                                percGameUser = (int)((conUserWins / conNumGames) * 100);
+                                percGameSys = (int)((conSystemWins / conNumGames) * 100);
+                                System.out.println("\nContinent Guessing Game");
+                                System.out.println(name + "'s wins: " + conUserWins);
+                                System.out.println("System's wins: " + conSystemWins);
+                                System.out.println("Games played: " + conNumGames);
+                                System.out.println("You won " + percGameUser + "% of games and lost " + percGameSys + "% of games");
 
-                                System.out.println("\n" + name + "'s Paper Scissors Rock wins: " + psrUserWins);
-                                System.out.println("System's Paper Scissors Rock wins: " + psrSystemWins);
-                                System.out.println("Total Paper Scissors Rock played: " + psrNumGames);
-                                System.out.println("You won " + (psrUserWins / psrNumGames)*100 + "% of games and lost " + (psrSystemWins / psrNumGames)*100 + "% of games");
+                                percGameUser = (int)((psrUserWins / psrNumGames) * 100);
+                                percGameSys = (int)((psrSystemWins / psrNumGames) * 100);
+                                percGameDraw = (int)((psrDraw / psrNumGames) * 100);
+                                System.out.println("\nPaper Scissors Rock");
+                                System.out.println(name + "'s wins: " + psrUserWins);
+                                System.out.println("System's wins: " + psrSystemWins);
+                                System.out.println("Games tied: " + psrDraw);
+                                System.out.println("Games played: " + psrNumGames);
+                                System.out.println("You won " + percGameUser + "% of games, lost " + percGameSys + "% of games and drew " + percGameDraw + "% of games");
 
-                                System.out.println("\n" + name + "'s Total wins: " + userWins);
+                                percGameUser = (int)((userWins / numGames) * 100);
+                                percGameSys = (int)((systemWins / numGames) * 100);
+                                percGameDraw = (int)((draw / numGames) * 100);
+                                System.out.println("\nTotal");
+                                System.out.println(name + "'s Total wins: " + userWins);
                                 System.out.println("System's Total wins: " + systemWins);
-                                System.out.println("Total games played: " + numGames);
-                                System.out.println("Overall you won " + (userWins / numGames)*100 + "% of games and lost " + (systemWins / numGames)*100 + "% of games");
+                                System.out.println("Games tied: " + draw);
+                                System.out.println("Games played: " + numGames);
+                                System.out.println("Overall you won " + percGameUser + "% of games, lost " + percGameSys + "% of games and drew " + percGameDraw + "% of games");
                                 close = true;
                                 break;
 
@@ -1051,27 +1069,12 @@ public class Jigsaw
 
                             default:
                                 System.out.println("Oh shit, the system must've been hit with the ID10T error");
-                                System.out.println("Oh wait, that error is just yo dumbass brain, select on your keyboard either '1' '2' '3' ");
+                                System.out.println("Oh wait, that error is just yo dumbass brain, select on your keyboard either '1' or '2' or '3' or '4'");
                         }
 
                     }
 
             } close = true;
-
-                switch (stringResponse)
-                {
-                    case "n":
-                    case "N":
-
-                        //while (!close)
-                        {
-                            System.out.println("Kill yourself " + name + ", we're gonna play some fun games whether you like it or not, now pick from the menu below");
-                            System.out.println("\t> 1. Hangman");
-                            System.out.println("\t> 2. Tic Tac Toe");
-                            System.out.println("\t> 3. Mad Libs");
-                            System.out.println("\t> 4. Cut");
-                        }
-                }
         }
 
         catch (InputMismatchException error)
@@ -1089,6 +1092,144 @@ public class Jigsaw
             System.out.println(error + " was found");
             System.out.println("Come on man, enter something, anything, don't just hit enter\n");
         }
+    }
 
+    public static void gameTwo(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        String name, stringResponse, fingers, message, randomString2, randomChar2;
+        double numOne, numTwo;
+        char response, menuPicker, playAgain;
+        int response2, response3, randomNum, answer;
+        boolean close = false;
+
+        double userWins = 0;
+        double systemWins = 0;
+        double numGames = 0;
+        double draw = 0;
+
+        double finUserWins = 0;
+        double finSystemWins = 0;
+        double finNumGames = 0;
+
+        double conUserWins = 0;
+        double conSystemWins = 0;
+        double conNumGames = 0;
+
+        double psrUserWins = 0;
+        double psrSystemWins = 0;
+        double psrNumGames = 0;
+        double psrDraw = 0;
+        
+        try
+        {
+            name = scanner.nextLine();
+
+            do
+            {
+                if (name.isEmpty())
+                {
+                    System.out.println("Ok dude, you're not some nonchalant and mysterious entity; you're some hunched over, ugly ass, broke ass loser who's playing this dumbass game.\n");
+                    System.out.println("Now just tell me what your name is.");
+                    name = scanner.nextLine();
+                }
+
+            } while (name.isEmpty());
+
+            do
+            {
+                stringResponse = scanner.nextLine();
+
+                if (stringResponse.length() > 0 && !stringResponse.equalsIgnoreCase("N"))
+                {
+                    for (int i = 1; i < stringResponse.length(); i++)
+                    {
+                        System.out.println("ermmmm, can you like just either put 'Y' or 'y' or 'N' or 'n', ok??");
+                        break;
+                    }
+                }
+                                            
+            } while (!stringResponse.equalsIgnoreCase("N"));
+
+            while (!close)
+            {
+                switch (stringResponse)
+                {
+                    case "n":
+                    case "N":
+
+                        do
+                        {
+                            System.out.println("Kill yourself " + name + ", we're gonna play some fun games whether you like it or not, now pick from the menu below");
+                            System.out.println("\t> 1. Hangman");
+                            System.out.println("\t> 2. Tic Tac Toe");
+                            System.out.println("\t> 3. Mad Libs");
+                            System.out.println("\t> 4. Cut");
+                            System.out.println("\t> 5. Exit and see your final score.");
+
+                            while (!scanner.hasNextInt()) // Use a loop to keep prompting until a valid integer is entered
+                            {
+                                System.out.println("\nain't no way this jackass " + name + " thought they were slick by not putting an integer");
+                                scanner.next(); // Clear the buffer (consume the invalid input)
+                            }
+                            response2 = scanner.nextInt();
+                            
+                            if (response2 == 42)
+                            {
+                                System.out.println("You have accessed the magical exit button, farewell " + name + ", you absolute prick");
+                                close = true;
+                                break;
+                            }
+                            if (response2 < 1 || response2 > 5)
+                            {
+                                System.out.println("\nOMG " + name + " can you just pick either '1' or '2' or '3' or '4' or '5'");
+                            }
+                        } while (!close && (response2 < 1 || response2 > 5));
+
+                        switch (response2)
+                        {
+                            case 1:
+
+
+                            case 2:
+
+
+                            case 3:
+
+
+                            case 4:
+
+                            
+                            case 5:
+
+
+                            case 42:
+                                close = true;
+                                break;
+
+                            default:
+                                System.out.println("Oh shit, the system must've been hit with the ID10T error");
+                                System.out.println("Oh wait, that error is just yo dumbass brain, select on your keyboard either '1' or '2' or '3' or '4'");
+                        }
+                } close = true;
+            }
+        }
+                
+        catch (InputMismatchException error)
+        {
+            System.out.println(error + " was found");
+        }
+
+        catch (ArrayIndexOutOfBoundsException error)
+        {
+            System.out.println(error + " was found");
+        }
+
+        catch (StringIndexOutOfBoundsException error)
+        {
+            System.out.println(error + " was found");
+            System.out.println("Come on man, enter something, anything, don't just hit enter\n");
+        }
     }
 }
