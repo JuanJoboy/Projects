@@ -381,14 +381,22 @@ public class Jigsaw
                                         randomString2 = continents[randomNum]; // uses the randomNum to get a random string from the array
                                         message = scanner.nextLine();
 
-                                        if (Character.isLowerCase(message.charAt(0)))
+                                        if (!message.matches("\\w+(?: \\w+)*") || Character.isLowerCase(message.charAt(0)) )
                                         {
-                                            System.out.println("\n" + name + " didn't I tell you to capitalize the first letter, it's a proper noun dummy.");
+                                            if (!message.matches("\\w+(?: \\w+)*"))
+                                            { // Invalid message format
+                                                System.out.println("Type normally please " + name);
+                                            }
+                                            
+                                            else
+                                            {
+                                                System.out.println("\n" + name + " didn't I tell you to capitalize the first letter?");
+                                            }
                                         }
-                            
-                                        if (message.length() > 1)
+
+                                        if (message.length() >= 1)
                                         {
-                                            if (message.equalsIgnoreCase("South America") || message.equalsIgnoreCase("North America"))
+                                            if (message.equals("South America") || message.equals("North America"))
                                             {
                                                 if (Character.isUpperCase(message.charAt(1)))
                                                 {
@@ -410,25 +418,112 @@ public class Jigsaw
                                             }
                                         }
 
-                                        if (!Arrays.asList(continents).contains(message))
-                                        {
-                                            if (!message.matches("\\w+(?: \\w+)*"))
-                                            { // Allows letters, digits, and underscores
-                                                System.out.println("Type normally please " + name);
+                                        if (message.matches("[0-9]+") || !Arrays.asList(continents).contains(message))
+                                        { 
+                                            if (message.matches("[0-9]+")) // Check specifically for numbers.
+                                            {
+                                                System.out.println("Numbers aren't continents " + name + ". How about you try using letters ok?!");
+                                            }
+                                            
+                                            else
+                                            {
+                                                System.out.println("Enter one of the 7 continents");
                                             }
                                         }
-                                        
-                                        if (message.matches("[0-9]+"))
-                                        { // Optional: Check specifically for numbers. This technically doesn't have to be here
-                                            System.out.println("Numbers aren't continents " + name + ". How about you try using letters ok?!");
-                                        }
 
-                                        if (("Mu").equalsIgnoreCase(message) || "Thoth".equalsIgnoreCase(message) || "Atlantis".equalsIgnoreCase(message))
+                                        if (("Mu").equals(message) || "Thoth".equals(message) || "Atlantis".equals(message))
                                         {
-                                            System.out.println("Enter a REAL continent");
+                                            System.out.println("\nYOU SHUT YOUR MOUTH\nTRIPLE DOG DEATH BARRAGE");
+                                            System.out.println("    . `  `. .`  ` .\r\n" + //
+                                                                                                "                        . `     `.  ;  .`     ` .\r\n" + //
+                                                                                                "                     .`           \\   /           `.\r\n" + //
+                                                                                                "                   .`     . - .   ( @ )   . - .     `.\r\n" + //
+                                                                                                "                  /    .`      `.  '-'  .'      `.    \\\r\n" + //
+                                                                                                "          /\\    .`    /   .--.   `-._.-'   .--.   \\    `.    /\\\r\n" + //
+                                                                                                "        .`  `. /    .'  .`    `. `.   .` .`    `.  `.    \\ .`  `.\r\n" + //
+                                                                                                "      .`     .`    /   /        \\  \\ /  /        \\   \\    `.     `.\r\n" + //
+                                                                                                "     /      /    .'   /   . ''' .\\     /. ''' .   \\   `.    \\      \\\r\n" + //
+                                                                                                "    |    .`(    /    |   /        \\   /        \\   |    \\    )`.    |\r\n" + //
+                                                                                                "     \\   | /  .'      \\ |   /##\\  |   |  /##\\   | /      `.  \\ |   /\r\n" + //
+                                                                                                "      |  / | /         \\\\  | ###| /   \\ |### |  //         \\ | \\  |\r\n" + //
+                                                                                                "    .`\\  | \\/)       _.-'.  \\##/ |     | \\##/  .'-._       (\\/ |  /`.\r\n" + //
+                                                                                                "   /   | |  (      .`     `-.   /       \\   .-'     `.      )  | |   \\\r\n" + //
+                                                                                                "  |  .`\\ \\   )               `.'         `.'               (   / /`.  |\r\n" + //
+                                                                                                "  /\\/  | |                  .'             `.                  | |  \\/\\\r\n" + //
+                                                                                                "  \\   / /     /            (   .-.     .-.   )            \\     \\ \\   /\r\n" + //
+                                                                                                "   `./ |    .`              `.(   `._.'   ).'              `.    | \\ /\r\n" + //
+                                                                                                "   / \\ \\   /.`\\      )._           ) (           _.(      /`.\\   / /  \\\r\n" + //
+                                                                                                "  /  |  `-'/   \\    /  ''--.__    .' '.    __.--''  \\    /   \\`-'  |   \\\r\n" + //
+                                                                                                "  |   `---'/  .`'.  '.       ''--..___..--''       .'  .'`.  \\`---'    |\r\n" + //
+                                                                                                "  |    _.-/  /   |'.  '.                         .'  .'|   \\  \\-._     |\r\n" + //
+                                                                                                "  /\\ .`  |  /|  /   '.  ''---....._____.....---''  .'   \\  |\\ |   `.  /\r\n" + //
+                                                                                                " |  /     \\/ \\ |       - . _     _.---._     _ . -       \\ /|/      \\|\r\n" + //
+                                                                                                " \\ /          \\/            ''--._______.--''             \\|         \\\r\n" + //
+                                                                                                " .`        \\                                                 /        `.\r\n" + //
+                                                                                                "/       ;   |  `.                                       .`  |   ;       \\\r\n" + //
+                                                                                                "| (      )  /    \\                  ^                  /    \\  (      ) |\r\n" + //
+                                                                                                "|  `.      / .`   `.              .` `.              .`   `. \\      .`  |\r\n" + //
+                                                                                                "\\         \\         `-._         /     \\         _.-`         /         /\r\n" + //
+                                                                                                " \\         \\  _.-`   _  `--.__.-`       `-.__.--`  _   `-._  /         /\r\n" + //
+                                                                                                " |          `-._    / )   _                   _   ( \\    _.-`          |\r\n" + //
+                                                                                                "  \\             `-.` (   / )    `-.___.-`    ( \\   ) `.-`             /\r\n" + //
+                                                                                                "   \\      `.         /.-' / )               ( \\ '-.\\         .`      /\r\n" + //
+                                                                                                "    `-._     `.     |  .-' / )  `-.___.-`  ( \\ '-.  |     .`     _.-`\r\n" + //
+                                                                                                "    /   `--._        \\  .-' / )           ( \\ '-.  /        _.--`  \\\r\n" + //
+                                                                                                "    |   |   \\`--.._   |  .-' /  `-.___.-`  \\ '-.  |   _..--`/  |    |\r\n" + //
+                                                                                                "     `./     \\ .`  `-/.__.--'               '--.__.\\-`  `. /    `.  |\r\n" + //
+                                                                                                "      |     / |_           -._            _.-            _| \\    |\\/\r\n" + //
+                                                                                                "       `.  | /  ''--..__            _            __..--''  \\ |  .`\r\n" + //
+                                                                                                "       | \\/  |==  ==    ''--..__/\\_/ \\_/\\__..--''    ==  ==|  \\/ \\\r\n" + //
+                                                                                                "       \\     \\ _==   ==   ==   / o)|-|(o \\   ==   ==   ==_ /     /\r\n" + //
+                                                                                                "       |    /|  ''--..__==  == \\ (\\) (/) / ==  ==__..--'' ||\\    |\r\n" + //
+                                                                                                "        \\  / |      |  |''--..__\\ )\\_/( /__..--''   _.-'\\ \\\\ \\  /\r\n" + //
+                                                                                                "         \\|  /     /  /          \\/___\\/     \\\\ _.-'     \\ \\\\ |/\r\n" + //
+                                                                                                "             |    /  /  :                     \\\\\\    @ .-'  ||\r\n" + //
+                                                                                                "             \\_.-`  /          :            : || \\_.-'      \\\\\r\n" + //
+                                                                                                "             /___.-`                          ||       _     \\\\\r\n" + //
+                                                                                                "             | :                       :       \\\\     / (    ||\r\n" + //
+                                                                                                "             /               :                  \\\\    =:_\\   \\\\\r\n" + //
+                                                                                                "             |   :                              ||     )      \\\\\r\n" + //
+                                                                                                "             |         :                 :      \\\\          _.//\r\n" + //
+                                                                                                "              \\     /\\                           \\\\     _.-'\r\n" + //
+                                                                                                "              |    |  \\    |\\   :            |\\   ||_.-'   |\r\n" + //
+                                                                                                "              | : /   |   /  |      /|      /  |   /|     /\r\n" + //
+                                                                                                "              \\  /    \\  |   \\     | |     | `./  |  \\   /\r\n" + //
+                                                                                                "              | / `    |/  `. |    / \\  : /    | /    \\  |\r\n" + //
+                                                                                                "              \\|\\ `            \\  |   |  | `   \\|    ` \\ |\r\n" + //
+                                                                                                "                 | `     `.     \\ /   / /  `  `.     ` ||/\r\n" + //
+                                                                                                "                 \\  `        ,   \\|   \\ | `          ` /\r\n" + //
+                                                                                                "                  | `.      ,    |    |/            ` |   .    .\r\n" + //
+                                                                                                "                   \\             /     \\           ,`/     \\  /\r\n" + //
+                                                                                                "                    \\    . - .   |     |   . - .    /     ( O  )\r\n" + //
+                                                                                                "                     \\  .`-._ . /       \\ . _.-'.  /       )  (\r\n" + //
+                                                                                                "                     \\  : _.-': |       | :`-._ :  /      (    )\r\n" + //
+                                                                                                "                     |   `- -`  \\       /  `- -`   |        \\ /\r\n" + //
+                                                                                                "          )\\         |    ___   |       |   ___    |         |\r\n" + //
+                                                                                                "       )\\/ (         /_.-'___'-._\\     /_.-'___'-._\\        /\r\n" + //
+                                                                                                "      (  @  )       [__.-'   '-._]     [_.-'   '-.__]      |\r\n" + //
+                                                                                                "       \\( )/       /|\\ _ \\   /_  /     \\  _\\   /_  /   /|  /\r\n" + //
+                                                                                                "           \\      | /|`   | |  -_| /\\  |_-  | |  ` |  | / /\r\n" + //
+                                                                                                "       |\\   |  |\\/ | /.-` | |`-._\\/ |  /_.-`| |`-. \\ /  |/|\\       /|\r\n" + //
+                                                                                                "  /\\  /  \\   \\ \\ \\ \\ \\-_ /   \\.-'/\\ \\  \\'-./   \\ _-/ |  / / \\ /\\  | \\\r\n" + //
+                                                                                                " | / |  / /\\ | /  |/ /`-.\\ _ /.-'\\|  \\ /'-.\\ _ /.-`\\ / | /  / | \\ \\ |\r\n" + //
+                                                                                                " \\ | \\ | |  \\\\\\|  \\ .`-_ // \\ \\ .-\\  // -./ / \\\\ _-`.  \\ | |  / / | \\\r\n" + //
+                                                                                                " / \\ / \\ |  //|\\  .`,`__//___\\ \\__/   \\__/ /___\\\\__`,`. |/ \\ / | /  |\r\n" + //
+                                                                                                " \\ |/  |/  |/ |/ /_-_--_--_---,--.`) (`,--.---_--_--_-_\\\\|  \\| \\/   \\\r\n" + //
+                                                                                                " / \\|  /   /\\ /\\(_`'_`'_`'_) (____)   (____) (_`'_`'_`'_)/  /\\  |/");
                                         }
                                         
-                                    } while ((!Character.isUpperCase(message.charAt(0)) || (message.length() > 1 && Character.isUpperCase(message.charAt(1))) || !Arrays.asList(continents).contains(message)) || !message.matches("\\w+(?: \\w+)*") && !message.matches("[a-zA-Z]+") || message.matches("[0-9]+"));
+/* 
+!Arrays.asList(continents).contains(message)
+
+! (logical NOT operator): The exclamation mark (!) negates the entire expression. So, the whole line essentially asks: "Is the user's guess (message) NOT present in the list of continents (continents array converted to a list)?"
+
+In simpler terms:
+
+If the user enters a continent name that's not in the continents array (like "Mars" or "Atlantis"), this line will evaluate to true because that guess is not present in the list of valid continents.
+If the user enters a valid continent name (like "Asia" or "Europe"), this line will evaluate to false because the guess is present in the list. */                                        
+                                    } while (!Arrays.asList(continents).contains(message) || !message.matches("\\w+(?: \\w+)*") || Character.isLowerCase(message.charAt(0)) || !(message.length() > 1) || message.matches("[0-9]+"));
                                 
                                     if (message.equals(randomString2))
                                     {
