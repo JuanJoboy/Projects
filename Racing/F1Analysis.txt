@@ -1,0 +1,440 @@
+// AUTHOR: Juan Joboy
+// STUDENT: 21837001
+// TITLE: F1Analysis
+// PURPOSE: Retrieves data from a csv and sorts and analyzes it
+// DATE: 15/05/2024
+
+BEGIN F1Analysis
+    MAIN:
+        teams = readTeams()
+
+        PRINT 'Would you like an All Teams analysis or a Single Team analysis?'
+        PRINT '(1) All Teams'
+        PRINT '(2) Single Team'
+        PRINT '(0) Exit'
+        PRINT 'Enter your choice: '
+
+        WHILE NOT close
+            INPUT response
+                IF response >= 0 AND response <= 2 THEN
+                    CASE response
+
+                        1:
+                            allTeams(teams)
+                        
+                        2:
+                            singleTeam(teams)
+                        
+                        0:
+                            PRINT 'Exiting...'
+                        
+                        DEFAULT:
+                            PRINT 'Invalid choice. Please try again.'
+                    END CASE
+                ELSE
+                    PRINT 'Invalid input. Please enter a number between 0 and 2.'
+                END IF
+        END WHILE
+    END MAIN
+
+    METHOD: readTeams
+    IMPORT: none
+    EXPORT: teams (ARRAY OF Team)
+    PURPOSE: Reads the csv file
+    ALGORITHM:
+        WHILE NOT close
+            PRINT 'Enter the name of the file containing the data: '
+            INPUT response
+            IF file exists THEN
+                OPEN FILE fileName
+                lineCounter = -1
+                READ line FROM theFile // Read first line from file
+
+                WHILE NOT(theFile=EOF) //EOF = end of file.
+                    READ line FROM theFile
+                END WHILE
+
+                WHILE NOT(theFile=EOF)
+                    createTeam(line)
+                    PRINT line
+                END WHILE
+
+                CLOSE FILE fileName
+            END IF
+    END readTeams
+
+    METHOD: createTeam
+    IMPORT: line (String)
+    EXPORT: team (Team)
+    PURPOSE: Takes a string (line) representing a line from a CSV file and parses it to create a Team object
+    ALGORITHM:
+        splitLine EQUALS SPLIT LINE ',' // Splits the line string using commas (",") as delimiters, storing the elements in the splitLine array
+        lineLength EQUALS LENGTH OF splitLine // Gets the number of elements
+
+        // Extracts individual fields from the splitLine array based on their assumed positions
+        teamName EQUALS splitLine INDEX 0
+        carCode EQUALS splitLine INDEX 1
+        driver EQUALS splitLine INDEX 2
+        grandPrix EQUALS splitLine INDEX 3
+        position EQUALS splitLine INDEX 4
+        lap EQUALS splitLine INDEX 5
+        CREATE ARRAY WITH PARAMETERS teamName, carCode, driver, grandPrix, position, lap // Creates a new Team object data and assigns it to the team variable
+    END createTeam
+
+    METHOD: allTeams
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Displays all the methods relating to 'all team' data analysis
+    ALGORITHM:
+        oneDriver(teams)
+        noDriver(teams)
+        fastestTeam(teams)
+        descendingTeam(teams)
+        fastestDriver(teams)
+        slowestDriver(teams)
+
+        PRINT 'What would you like to do now?'
+        PRINT '1. Go to Single Team Analysis'
+        PRINT '2. Exit'
+
+        DO
+            INPUT menu
+            IF menu NOT EQUALS '1' && menu NOT EQUALS '2' THEN
+                PRINT 'Invalid input. Please enter 1 or 2.'
+            END IF
+        WHILE menu NOT EQUALS '1' && menu NOT EQUALS '2'
+        END DOWHILE
+
+        IF menu EQUALS '1' THEN
+            singleTeam(teams)
+        ELSE IF menu EQUALS '2'
+            PRINT 'Exiting program...'
+            EXIT
+        END IF
+    END allTeams
+
+    METHOD: singleTeam
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Allows the user to pick out specific car codes from the csv and look at its data
+    ALGORITHM:
+        WHILE NOT validCarCode
+            PRINT 'Enter the Car Code to view its data (or 2 to quit)'
+            INPUT response
+
+            IF response EQUALS '2' THEN
+                PRINT 'Exiting program...'
+                PRINT 'Thank you for using the F1 Championship Manager."
+                EXIT
+            END IF
+        
+            found = FALSE
+            FOR i = 0 TO teams LENGTH INCREMENT BY 1
+                IF teams INDEX i getCarCode() EQUALS response THEN
+                    found = TRUE // Check if the entered car code is valid
+                        PRINT 'Data for Car Code ' response ':'
+                        FOR i = 0 TO teams LENGTH INCREMENT BY 1
+                            IF teams INDEX i getCarCode() EQUALS response THEN
+                                PRINT 'Driver: ' teams INDEX i getDriver() ', Lap Time: ' teams INDEX i getLap()
+                            END IF
+                        END FOR
+                END IF
+            END FOR
+
+            IF NOT found THEN
+                PRINT 'Invalid Car Code. Please try again or enter 2 to quit.'
+            ELSE
+                validCarCode = TRUE
+            END IF
+        
+        PRINT 'Would you like an All Teams analysis or a Single Team analysis?'
+        PRINT '(1) All Teams'
+        PRINT '(2) Single Team'
+        PRINT '(0) Exit'
+        PRINT 'Enter your choice: '
+    END singleTeam
+
+    METHOD: oneDriver
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Lists each of the teams that competed with at least one driver completing the race
+    ALGORITHM:
+            teamSorter(teams)
+            highToLowSort(teamTimes, uniqueTeamNames)
+
+            String ARRAY teamsWithCompletion = withCompletion(teams, uniqueTeamNames)
+            PRINT 'Teams with at least one driver completing the race'
+            FOR i = 0 TO teamsWithCompletion LENGTH INCREMENT BY 1
+                PRINT teamsWithCompletion INDEX i
+            END FOR
+    END oneDriver
+
+    METHOD: noDriver
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Lists each of the teams that had no driver complete the race
+    ALGORITHM:
+            teamSorter(teams)
+            highToLowSort(teamTimes, uniqueTeamNames)
+
+            String ARRAY teamsWithoutCompletion = withoutCompletion(teams, uniqueTeamNames)
+            PRINT 'Teams with no driver completing the race'
+            FOR i = 0 TO teamsWithoutCompletion LENGTH INCREMENT BY 1
+                PRINT teamsWithoutCompletion INDEX i
+            END FOR
+
+            driversRaced = participation(teams)
+            IF driversRaced THEN
+                PRINT 'Every driver ran the race.'
+            END IF
+    END noDriver
+
+    METHOD: fastestTeam
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Calculates the fastest team of the race and displays the times
+    ALGORITHM:
+            teamSorter(teams)
+            highToLowSort(teamTimes, uniqueTeamNames)
+
+            PRINT 'Sorted Teams by Times'
+            FOR i = uniqueTeamNames LENGTH - 1 TO 0 DECREMENT BY 1
+                PRINT uniqueTeamNames LENGTH - i '. ' uniqueTeamNames INDEX i + ': ' teamTimes INDEX i
+            END FOR
+
+            FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+                FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                    IF uniqueTeamNames INDEX i EQUALS teams INDEX j getTeamName() THEN
+                        teamTimes INDEX i ADDS teams INDEX j getLap()
+                        IF teams INDEX j getLap() = 205.50 THEN
+                            PRINT teams INDEX j getDriver() 'did not finish'
+                    END IF
+                END FOR
+            END FOR                
+    END fastestTeam
+
+    METHOD: descendingTeam
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Sorts the teams according to which was fastest and displays to the user in descending order
+    ALGORITHM:
+        teamSorter(teams)
+        highToLowSort(teamTimes, uniqueTeamNames)
+
+        PRINT 'Sorted Teams in descending order'
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            PRINT uniqueTeamNames INDEX i
+        END FOR
+    END descendingTeam
+
+    METHOD: slowestDriver
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: Sorts the drivers according to who was fastest and displays to the user in descending order
+    ALGORITHM:
+        driverSorter(teams)
+        highToLowSort(teamTimes, uniqueTeamNames)
+
+        PRINT 'Sorted Drivers in descending order'
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            PRINT uniqueTeamNames INDEX i ': ' teamTimes INDEX i
+        END FOR
+    END slowestDriver
+
+    METHOD: fastestDriver
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: 
+    ALGORITHM:
+        driverSorter(teams)
+        lowToHighSort(teamTimes, uniqueTeamNames)
+
+        PRINT 'Sorted Drivers in ascending order'
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            PRINT uniqueTeamNames INDEX i ': ' teamTimes INDEX i
+        END FOR
+    END fastestDriver
+
+        METHOD: teamSorter
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: 
+    ALGORITHM:
+            FOR i = 0 TO teams LENGTH INCREMENT BY 1
+            tempName = teams INDEX i getTeamName()
+            foundDuplicate = FALSE
+            
+            FOR j = 0 TO i INCREMENT BY 1
+                IF teams INDEX j getTeamName() EQUALS tempName THEN
+                    foundDuplicate = TRUE
+                END IF
+            END FOR
+            
+            IF NOT foundDuplicate THEN
+                INCREMENT counter BY 1
+            END IF
+
+            CREATE String ARRAY uniqueTeamNames AND SPLIT uniqueNames WITH ';'
+            CREATE real ARRAY teamTimes EQUAL LENGTH OF uniqueTeamNames
+
+            FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+                FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                    IF uniqueTeamNames INDEX i EQUALS teams INDEX j getTeamName() THEN
+                        teamTimes INDEX i ADDS teams INDEX j getLap()
+                    END IF
+                END FOR
+            END FOR
+    END teamSorter
+
+    METHOD: driverSorter
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: none
+    PURPOSE: 
+    ALGORITHM:
+            FOR i = 0 TO teams LENGTH INCREMENT BY 1
+            tempName = teams INDEX i getDriver()
+            foundDuplicate = FALSE
+            
+            FOR j = 0 TO i INCREMENT BY 1
+                IF teams INDEX j getDriver() EQUALS tempName THEN
+                    foundDuplicate = TRUE
+                END IF
+            END FOR
+            
+            IF NOT foundDuplicate THEN
+                INCREMENT counter BY 1
+            END IF
+
+            CREATE String ARRAY uniqueTeamNames AND SPLIT uniqueNames WITH ';'
+            CREATE real ARRAY teamTimes EQUAL LENGTH OF uniqueTeamNames
+
+            FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+                FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                    IF uniqueTeamNames INDEX i EQUALS teams INDEX j getDriver() THEN
+                        teamTimes INDEX i ADDS teams INDEX j getLap()
+                    END IF
+                END FOR
+            END FOR
+    END driverSorter
+
+    METHOD: lowToHighSort
+    IMPORT: array (ARRAY OF real), teamNames (ARRAY OF String)
+    EXPORT: array (ARRAY OF real)
+    PURPOSE: 
+    ALGORITHM:
+        FOR pass = 0 TO array LENGTH - 1 INCREMENT BY 1 // The outer loop (pass) controls the number of sorting passes (iterations). It runs array.length - 1 times.
+            FOR i = 0 TO array LENGTH - 1 - pass INCREMENT BY 1 // The inner loop (i) iterates through the array elements (except the last element in each pass to avoid out-of-bounds access).
+                IF array INDEX i > array INDEX i + 1 THEN
+                    // Swap times
+                    tempTime = array INDEX I
+                    array INDEX i = array index + 1 // The next element (array[i + 1]) is overwritten with the value stored in tempTime (effectively swapping the values).
+                    array INDEX i + 1 = tempTime
+
+                    // Swap corresponding team names
+                    tempName = teamNames INDEX I
+                    teamNames INDEX i = teamNames index + 1
+                    teamNames INDEX i + 1 = tempName
+                END IF
+            END FOR
+        END FOR
+    END lowToHighSort
+
+    METHOD: highToLowSort
+    IMPORT: array (ARRAY OF real), teamNames (ARRAY OF String)
+    EXPORT: array (ARRAY OF real)
+    PURPOSE: 
+    ALGORITHM:
+        FOR pass = 0 TO array LENGTH - 1 INCREMENT BY 1
+            FOR i = 0 TO array LENGTH - 1 - pass INCREMENT BY 1
+                IF array INDEX i < array INDEX i + 1 THEN
+                    // Swap times
+                    tempTime = array INDEX I
+                    array INDEX i = array index + 1
+                    array INDEX i + 1 = tempTime
+
+                    // Swap corresponding team names
+                    tempName = teamNames INDEX I
+                    teamNames INDEX i = teamNames index + 1
+                    teamNames INDEX i + 1 = tempName
+                END IF
+            END FOR
+        END FOR
+    END highToLowSort
+    
+    METHOD: withCompletion
+    IMPORT: teams (ARRAY OF Team), uniqueTeamNames (ARRAY OF String)
+    EXPORT: teamsWithCompletion (ARRAY OF String)
+    PURPOSE: 
+    ALGORITHM:
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            teamName = uniqueTeamNames INDEX I
+            FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                team = teams INDEX j // team is assigned the current Team object from the teams array
+                IF getTeamName() EQUALS teamName AND getPosition() != 21 THEN
+                    INCREMENT completionCounter BY 1
+                END IF
+            END FOR
+        END FOR
+
+        teamsWithCompletion ARRAY OF String = completionCount // // Creates a new string array named teamsWithCompletion with a size equal to the completionCount. This array will store the names of teams with at least one driver finishing
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            teamName = uniqueTeamNames INDEX I
+            FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                team = teams INDEX j
+                IF getTeamName() EQUALS teamName AND getPosition() != 21 THEN
+                    teamName = teamsWithCompletion INDEX i INCREMENT BY 1
+                END IF
+            END FOR
+        END FOR
+    END withCompletion
+
+    METHOD: withoutCompletion
+    IMPORT: teams (ARRAY OF Team), uniqueTeamNames (ARRAY OF String)
+    EXPORT: teamsWithoutCompletion (ARRAY OF String)
+    PURPOSE: 
+    ALGORITHM:
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            teamName = uniqueTeamNames INDEX I
+            hasCompletion = FALSE
+            FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                team = teams INDEX j
+                IF getTeamName() EQUALS teamName AND getPosition() != 21 THEN
+                    hasCompletion = TRUE
+                END IF
+                // If hasCompletion remains false after checking all teams, it means no driver from this team finished, so noCompletionCount is incremented.
+            END FOR
+
+            IF NOT hasCompletion THEN
+                INCREMENT noCompletionCount BY 1
+            END IF
+        END FOR
+
+        teamsWithoutCompletion ARRAY OF String = noCompletionCount // Create array to store teams without completion
+        FOR i = 0 TO uniqueTeamNames LENGTH INCREMENT BY 1
+            teamName = uniqueTeamNames INDEX I
+            hasCompletion = FALSE // Check if any driver from the team has finished the race
+            FOR j = 0 TO teams LENGTH INCREMENT BY 1
+                team = teams INDEX j
+                IF getTeamName() EQUALS teamName AND getPosition() != 21 THEN
+                    hasCompletion = TRUE
+                END IF
+            END FOR
+
+            IF NOT hasCompletion THEN
+                teamName = teamsWithoutCompletion INDEX i INCREMENT BY 1
+            END IF
+        END FOR
+    END withoutCompletion
+
+    METHOD: participation
+    IMPORT: teams (ARRAY OF Team)
+    EXPORT: check (boolean)
+    PURPOSE: 
+    ALGORITHM:
+        FOR i = 0 TO teams LENGTH INCREMENT BY 1
+            IF getPosition() = 21 THEN
+                check = FALSE
+            END IF
+        END FOR
+    END participation
+END

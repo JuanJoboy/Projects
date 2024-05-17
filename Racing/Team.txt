@@ -1,0 +1,167 @@
+// AUTHOR: Juan Joboy
+// STUDENT: 21837001
+// TITLE: Team
+// PURPOSE: Defines a Team class that represents a Formula One racing team
+// DATE: 15/05/2024
+
+CLASS Team
+    CLASS FIELDS:
+        teamName (String)
+        carCode (String)
+        driver (String)
+        prix (String)
+        position (Integer)
+        lap (Real)
+
+    CONSTRUCTOR WITH PARAMETERS
+    IMPORT: pTeamName (String), pCarCode (String), pDriver (String), pPrix (String), pPosition (Integer), pLap (Real)
+    EXPORT: None
+    PURPOSE: Object created with imported values
+    ALGORITHM:
+        teamName = pTeamName
+        carCode = pCarCode
+        driver = pDriver
+        prix = pPrix
+        position = pPosition
+        lap = pLap
+    
+    COPY CONSTRUCTOR
+    IMPORT: pTeam (Team)
+    EXPORT: None
+    PURPOSE: Object created with copied values from pTeam
+    ALGORITHM:
+        teamName = pTeam.getTeamName()
+        carCode = pTeam.getCarCode()
+        driver = pTeam.getDriver()
+        prix = pTeam.getPrix()
+        position = pTeam.getPosition()
+        lap = pTeam.getLap()
+    
+    DEFAULT CONSTRUCTOR
+    IMPORT: None
+    EXPORT: None
+    PURPOSE: Object created with default values
+    ALGORITHM:
+        teamName = 'Red Bull Racing'
+        carCode = 'RB20'
+        driver = 'Max Verstappen'
+        prix = 'Monaco'
+        position = 1
+        lap = 75.915
+
+    ACCESSOR: getTeamName
+    IMPORT: None
+    EXPORT: teamName (String)
+    PURPOSE: Returns the team name
+    ALGORITHM:
+        EXPORT COPY OF teamName
+    
+    ACCESSOR: getCarCode
+    IMPORT: None
+    EXPORT: carCode (String)
+    PURPOSE: Returns the car code
+    ALGORITHM:
+        EXPORT COPY OF carCode
+    
+    ACCESSOR: getDriver
+    IMPORT: None
+    EXPORT: driver (String)
+    PURPOSE: Returns the driver names
+    ALGORITHM:
+        EXPORT COPY OF driver
+    
+    ACCESSOR: getPrix
+    IMPORT: None
+    EXPORT: prix (String)
+    PURPOSE: Returns the Grand Prix name
+    ALGORITHM:
+        EXPORT COPY OF prix
+
+    ACCESSOR: getPosition
+    IMPORT: None
+    EXPORT: position (Integer)
+    PURPOSE: Returns the finishing position
+    ALGORITHM:
+        EXPORT COPY OF position
+   
+    ACCESSOR: getLap
+    IMPORT: None
+    EXPORT: lap (Real)
+    PURPOSE: Returns the fastest lap time
+    ALGORITHM:
+        EXPORT COPY OF lap
+    
+    MUTATOR: setTeamName
+    IMPORT: pTeamName (String)
+    EXPORT: None
+    PURPOSE: State of teamName is updated to pTeamName value
+    ALGORITHM:
+        teamName = pTeamName
+
+    MUTATOR: setCarCode
+    IMPORT: pCarCode (String)
+    EXPORT: None
+    PURPOSE: State of carCode is updated to pCarCode value
+    ALGORITHM:
+        carCode = pCarCode
+
+    MUTATOR: setDriver
+    IMPORT: pDriver (String)
+    EXPORT: None
+    PURPOSE: State of driver is updated to pDriver value
+    ALGORITHM:
+        driver = pDriver
+
+    MUTATOR: setPrix
+    IMPORT: pPrix (String)
+    EXPORT: None
+    PURPOSE: State of prix is updated to pPrix value
+    ALGORITHM:
+        prix = pPrix
+
+    MUTATOR: setPosition
+    IMPORT: pPosition (Integer)
+    EXPORT: None
+    PURPOSE: State of position is updated to pPosition value
+    ALGORITHM:
+        position = pPosition
+
+    MUTATOR: setLap
+    IMPORT: pLap (Real)
+    EXPORT: None
+    PURPOSE: State of lap is updated to pLap value
+    ALGORITHM:
+        lap = pLap
+
+    ACCESSOR: toString
+    IMPORT: None
+    EXPORT: teamString (String)
+    PURPOSE: Provides a more meaningful string representation of a Team object. When I call toString on a Team object, it will return a human-readable string that includes all the team's details: name, car code, driver(s), Grand Prix location, finishing position, and fastest lap time.
+    ALGORITHM:
+        teamString = 'Team Name is: ' teamName 'Car Code is: ' carCode 'Driver is: ' driver 'Grand Prix Location is: ' prix 'Position is: ' position 'Lap Time is: ' lap
+    
+    ACCESSOR: equals
+    IMPORT: inObject (Object)
+    EXPORT: isEqual (boolean)
+    PURPOSE: Returns true if the two objects are equivalent
+    ALGORITHM:
+        isEqual = false
+        IF inObject IS A Team THEN
+        TRANSFORM inObject TO Team NAMED inTeam
+            IF teamName EQUALS inTeam.getTeamName() THEN
+                IF carCode EQUALS inTeam.getCarCode() THEN
+                    IF driver EQUALS inTeam.getDriver() THEN
+                        IF prix EQUALS inTeam.getPrix() THEN
+                            IF position EQUALS inTeam.getPosition() THEN
+                                IF lap EQUALS inTeam.getLap() THEN
+                                isEqual = TRUE
+    
+    ACCESSOR: writeToFile
+    IMPORT: pfilename (String), pTeam (ARRAY OF Team)
+    EXPORT: None (technically exports a csv)
+    PURPOSE: Writes the team data from the pTeam array to a CSV file named according to the provided file name
+    ALGORITHM:
+            FOR i = 0 TO pTeam INCREMENT BY 1
+                WRITE teamName ',' carCode ',' driver ',' prix ',' position ',' lap
+            END FOR
+            CLOSE WRITER
