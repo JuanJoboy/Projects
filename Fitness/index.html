@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Fitness Calculator!</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><button onclick="showSection('kj_to_cal')">Convert kilojoules to calories</button></li>
+            <li><button onclick="showSection('cal_to_kj')">Convert calories to kilojoules</button></li>
+            <li><button onclick="showSection('kj_gram')">Calculate kilojoules per gram</button></li>
+            <li><button onclick="showSection('cal_gram')">Calculate calories per gram</button></li>
+            <li><button onclick="showSection('macro_gram')">Calculate macros per gram</button></li>
+            <li><button onclick="showSection('bmr_macro')">Calculate BMR and macro-nutrient intake</button></li>
+            <li><button onclick="showSection('health')">How healthy is my meal?</button></li>
+            <li><button onclick="exitApp()">Exit</button></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="kj_to_cal" class="hidden">
+            <h2>Kilojoules to Calories Converter</h2>
+            <button onclick="kjToCal()">Convert</button>
+        </section>
+        <section id="cal_to_kj" class="hidden">
+            <h2>Calories to Kilojoules Converter</h2>
+            <button onclick="calToKj()">Convert</button>
+        </section>
+        <section id="kj_gram" class="hidden">
+            <h2>Kilojoules per Gram Calculator</h2>
+            <button onclick="kjGram()">Calculate</button>
+        </section>
+        <section id="cal_gram" class="hidden">
+            <h2>Calories per Gram Calculator</h2>
+            <button onclick="calGram()">Calculate</button>
+        </section>
+        <section id="macro_gram" class="hidden">
+            <h2>Macro-Nutrient per Gram Calculator</h2>
+            <button onclick="macroGram()">Calculate</button>
+        </section>
+        <section id="bmr_macro" class="hidden">
+            <h2>BMR and Macro-Nutrient Intake Calculator</h2>
+            <button onclick="bmrMacro()">Calculate</button>
+        </section>
+        <section id="health" class="hidden">
+            <h2>How Healthy is My Meal?</h2>
+            <button onclick="health()">Check</button>
+        </section>
+    </main>
+    <footer>
+        <a href="FitnessCalculator.exe" download="FitnessCalculator.exe">
+            <button>Download Fitness Calculator</button>
+        </a>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
