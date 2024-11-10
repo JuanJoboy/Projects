@@ -83,6 +83,41 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
 
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
+        if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 9)
+        {
+            players[i].shieldCollected = 1;
+            players[i].shieldXCoord = players[i].xCoord;
+            players[i].shieldYCoord = players[i].yCoord;
+            players[i].shieldStartTime = time(NULL);
+            players[i].shieldEndTime = players[i].shieldStartTime + 8;
+        }
+
+        // If player has shield and it's still active
+        if(players[i].shieldCollected == 1 && time(NULL) < players[i].shieldEndTime)
+        {
+            // Check for snake collision
+            for(int j = 0; j < MAX_SNAKES; j++)
+            {
+                if(players[0].xCoord == snakes[j].xCoord && players[0].yCoord == snakes[j].yCoord)
+                {
+                    players[0].mapData[snakes[i].yCoord][snakes[i].xCoord] = 3;
+                }
+                if(players[1].xCoord == snakes[j].xCoord && players[1].yCoord == snakes[j].yCoord)
+                {
+                    players[1].mapData[snakes[i].yCoord][snakes[i].xCoord] = 7;
+                }
+            }
+        }
+        
+        // Deactivate shield after time expires
+        if(players[i].shieldCollected && time(NULL) >= players[i].shieldEndTime)
+        {
+            players[i].shieldCollected = 0;
+        }
+    }
+
+    for(int i = 0; i < MAX_PLAYERS; i++)
+    {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 8)
         {
             players[i].vanXCoord = players[i].xCoord; /* I need to store the coords of the van so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 8, it won't work since 8 doesn't exist on the map anymore, it needs to be the specific spot where the van was */
@@ -328,6 +363,12 @@ void undoMovement(Player *state, linkedList *list)
             #endif
         }
 
+        if((state->shieldCollected == 1) && (undoState->shieldCollected == 0))
+        {
+            state->shieldCollected = 0;
+            state->mapData[state->shieldYCoord][state->shieldXCoord] = 9;
+        }
+
         state->xCoord = undoState->xCoord; /* If the previous state isn't empty, then these 2 lines make me go back to where I was before. undoState has access to the most recent state of the player, and so setting these coords to my actual current coords allows me to go back to where I was before */
         state->yCoord = undoState->yCoord;
         
@@ -368,7 +409,9 @@ void initializePlayer1(Player *state, int mapRows, int mapCols, int **data)
     state->waitingForRevive = 0;
     state->startTime = 0;
     state->endTime = 0;
-
+    state->shieldCollected = 0;
+    state->shieldXCoord = -1;
+    state->shieldYCoord = -1;
 
     #ifdef DARK
         state->sight = 2;
@@ -398,6 +441,9 @@ void initializePlayer2(Player *state, int mapRows, int mapCols, int **data)
     state->waitingForRevive = 0;
     state->startTime = 0;
     state->endTime = 0;
+    state->shieldCollected = 0;
+    state->shieldXCoord = -1;
+    state->shieldYCoord = -1;
 
     #ifdef DARK
         state->sight = 2;

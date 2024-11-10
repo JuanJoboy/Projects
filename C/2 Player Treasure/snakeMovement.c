@@ -60,6 +60,12 @@ void restrictMovement(Snake *state)
         state->xCoord = state->prevX;
         state->yCoord = state->prevY;
     }
+
+    else if(state->mapData[state->yCoord][state->xCoord] == 9)
+    {
+        state->xCoord = state->prevX;
+        state->yCoord = state->prevY;
+    }
 }
 
 void snakeMove(Snake *state, linkedList *list)
@@ -201,9 +207,12 @@ void killPlayer(Snake *snakes, Player players[])
 
 void killPlayerHelper(Snake *snake, Player *player)
 {
-    player->dead = 1;
-    snake->mapData[player->yCoord][player->xCoord] = 6; // Set X (reboot card) at player's current position before moving them
-    snake->mapData[snake->yCoord][snake->xCoord] = 4;  // Place snake at player position
+    if(player->shieldCollected == 0)
+    {
+        player->dead = 1;
+        snake->mapData[player->yCoord][player->xCoord] = 6; // Set X (reboot card) at player's current position before moving them
+        snake->mapData[snake->yCoord][snake->xCoord] = 4;  // Place snake at player position
+    }
 }
 
 void undoSnake(Snake *state, linkedList *list)

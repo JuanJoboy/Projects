@@ -113,6 +113,16 @@ void printMap(Player players[], Snake snakes[])
         }
     }
 
+    for(int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(players[i].yCoord >= 0 && players[i].yCoord < players[i].rows && players[i].xCoord >= 0 && players[i].xCoord < players[i].cols && players[i].mapData[players[i].yCoord][players[i].xCoord] == 9)
+        {
+            players[i].shieldXCoord = players[i].xCoord;
+            players[i].shieldYCoord = players[i].yCoord;
+            players[i].shieldCollected = 1;
+        }
+    }
+
     // Check revival and card collection conditions for Player 1 and Player 2
     if(players[0].dead == 0 && players[1].dead == 1)
     {
@@ -142,6 +152,16 @@ void printMap(Player players[], Snake snakes[])
                     players[1].mapData[players[1].lanternYCoord][players[1].lanternXCoord] = 2;
                 }
                 players[1].lanternCollected = 0;
+            }
+
+            // Return shield if Player 2 had it
+            if(players[1].shieldCollected == 1)
+            {
+                if(players[1].shieldYCoord >= 0 && players[1].shieldYCoord < players[1].rows && players[1].shieldXCoord >= 0 && players[1].shieldXCoord < players[1].cols)
+                {
+                    players[1].mapData[players[1].shieldYCoord][players[1].shieldXCoord] = 9;
+                }
+                players[1].shieldCollected = 0;
             }
         }
     }
@@ -173,6 +193,16 @@ void printMap(Player players[], Snake snakes[])
                     players[0].mapData[players[0].lanternYCoord][players[0].lanternXCoord] = 2;
                 }
                 players[0].lanternCollected = 0;
+            }
+
+            // Return shield if Player 1 had it
+            if(players[0].shieldCollected == 1)
+            {
+                if(players[0].shieldYCoord >= 0 && players[0].shieldYCoord < players[0].rows && players[0].shieldXCoord >= 0 && players[0].shieldXCoord < players[0].cols)
+                {
+                    players[0].mapData[players[0].shieldYCoord][players[0].shieldXCoord] = 9;
+                }
+                players[0].shieldCollected = 0;
             }
         }
     }
@@ -214,11 +244,11 @@ void printMap(Player players[], Snake snakes[])
 
     if(players[0].cardCollected == 1)
     {
-        printf("\033[18;60HPlayer 2's reboot card has been collected!\n");
+        printf("\033[18;60HPlayer 1's reboot card has been collected!\n");
     }
     if(players[1].cardCollected == 1)
     {
-        printf("\033[18;60HPlayer 1's reboot card has been collected!\n");
+        printf("\033[18;60HPlayer 2's reboot card has been collected!\n");
     }
 }
 
@@ -267,7 +297,7 @@ int winCondition(Player players[], Snake snakes[])
         {
             for(int j = 0; j < MAX_SNAKES; j++)
             {
-                if(players[i].yCoord == snakes[j].yCoord && players[i].xCoord == snakes[j].xCoord)
+                if(players[i].yCoord == snakes[j].yCoord && players[i].xCoord == snakes[j].xCoord && players[i].shieldCollected == 0)
                 {
                     players[i].dead = 1;
                     playersAlive--;
@@ -281,6 +311,12 @@ int winCondition(Player players[], Snake snakes[])
                     {
                         players[0].mapData[players[0].yCoord][players[0].xCoord] = 6;
                     }
+                    break; // This entire section is needed to display the printf message
+                }
+
+                if(players[i].yCoord == snakes[j].yCoord && players[i].xCoord == snakes[j].xCoord && players[i].shieldCollected == 1)
+                {
+                    printf("\033[19;60HPlayer %d deflected a vile snake!\n", i + 1);
                     break; // This entire section is needed to display the printf message
                 }
             }

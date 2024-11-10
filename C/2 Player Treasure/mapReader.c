@@ -134,6 +134,9 @@ void notDark(int **data, int rows, int cols, int *xCoord, int *yCoord)
                 case 8:
                     printf("+ "); /* Reboot Van */
                     break;
+                case 9:
+                    printf("H "); /* Shield */
+                    break;
             }
         }
         printf("*\n"); /* Right Border */
@@ -177,6 +180,9 @@ void darkVision(int **data, int rows, int cols, int *xCoord1, int *yCoord1, int 
                         break;
                     case 8:
                         printf("+ "); /* Reboot Van */
+                        break;
+                    case 9:
+                        printf("H "); /* Shield */
                         break;
                 }
             }

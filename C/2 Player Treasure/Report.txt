@@ -52,3 +52,13 @@ The - is where it was initially, before I moved it to the 8
 1 0 1 1 0 0 0 1 1 0 1 0 0 0 0 0 0 1 0 1
 1 7 1 0 1 0 1 0 1 4 1 1 1 1 1 1 1 1 0 1
 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+
+-- Make an info screen that plays before the game, it shows everything the player needs to know to play the game.
+    - You go invisible when you enter a dead tile, and when a snake goes on you when you have a shield
+    - The "Player i's reboot card has been collected" message will appear if you try to mess around with the snake and it kills you while your on its tile and your shield runs out of time
+    - If a player takes both lanterns and then dies and gets revived, only the lantern that was collected last will become active again
+    - Shields are a one time use, and they are only active for 8 seconds
+-- Maybe add a ifdef for 2 player or 1 player gamemode
+-- Maybe add random generation of van, swords, lantern and treasure
+
+-- Turn this game into a website, then into a 3d game using some game engine. Call it 

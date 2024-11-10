@@ -27,6 +27,11 @@ typedef struct
     int waitingForRevive;
     time_t startTime;
     time_t endTime;
+    int shieldCollected;
+    int shieldXCoord;
+    int shieldYCoord;
+    time_t shieldStartTime;
+    time_t shieldEndTime;
 } Player;
 
 typedef struct
