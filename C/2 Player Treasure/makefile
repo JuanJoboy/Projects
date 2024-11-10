@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -pedantic -g -Werror
 VALGRIND_FLAGS = --leak-check=full -s --show-leak-kinds=all --track-origins=yes
 OBJ = main.o terminal.o random.o newSleep.o mapReader.o gameHandler.o playerMovement.o snakeMovement.o linkedList.o
-EXEC = treasure
+EXEC = labyrinth
 HARDCORE = hardcore.txt
 EXPERT = expert.txt
 

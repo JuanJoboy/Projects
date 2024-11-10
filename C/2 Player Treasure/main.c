@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
                     initializeSnake(&snakes[i], rows, cols, data);
                 }
                 
+                loadingScreen();
                 runGame(players, snakes); /* Enters the game loop */
                 cleanupData(data, rows);
             }

@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define MAX_PLAYERS 2
-#define MAX_SNAKES 4
+#define MAX_SNAKES 6
 
 typedef struct
 {
@@ -53,6 +53,8 @@ typedef struct
 } ThreadArgs;
 
 void runGame(Player players[], Snake snakes[]);
+void loadingScreen();
+void toolTips();
 void printMap(Player players[], Snake snakes[]);
 void keyBinds();
 int winCondition(Player players[], Snake snakes[]);

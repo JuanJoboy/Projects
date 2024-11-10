@@ -97,6 +97,99 @@ void runGame(Player players[], Snake snakes[])
     }
 }
 
+void loadingScreen()
+{
+    char skip = 0;
+    system("clear");  // Clear screen first
+    
+    while(skip != 'e')
+    {
+        toolTips();
+        
+        disableBuffer();
+        scanf(" %c", &skip);
+        enableBuffer();
+        
+        system("clear");  // Clear for next iteration
+    }
+}
+
+
+void toolTips()
+{
+    system("clear");
+    printf("\033[H");  // ANSI escape code to move the cursor to the top-left corner
+
+    printf("\n\n");
+    printf("     Welcome to Labyrinth!\n");
+    printf("     ========================\n\n");
+
+    printf("     Player 1 Controls:               Player 2 Controls:\n");
+    printf("     -----------------------          -----------------------\n");
+    printf("     Press 'w' to move up             Press 'i' to move up\n");
+    printf("     Press 'a' to move left           Press 'j' to move left\n");
+    printf("     Press 's' to move down           Press 'k' to move down\n");
+    printf("     Press 'd' to move right          Press 'l' to move right\n");
+    printf("     Press 'q' to undo                Press 'u' to undo\n\n");
+
+    printf("     Information\n");
+    printf("     -----------\n");
+    printf("     * There are 2 players on the map\n");
+    printf("     * Player 1 can be identified by the '1' on the map, and player 2 can be identified by the '2' on the map\n");
+    printf("     * In dark mode, the player can see themselves and 2 tiles around them\n");
+    printf("     * In dark mode, spaces that the player can walk on can be identified by '.'\n");
+    printf("     * In dark mode, blank spaces are areas that the player can't see\n");
+    printf("     * In non-dark mode, blank spaces are the areas that the player can walk on\n\n");
+
+    printf("     * 'O' represents walls\n");
+    printf("     * '@' represents the lantern\n");
+    printf("     * 'H' represents the shield\n");
+    printf("     * '$' represents the treasure\n");
+    printf("     * 'X' represents the reboot card\n");
+    printf("     * '+' represents the reboot van\n");
+    printf("     * '~' represents the snake\n\n");
+
+    printf("     * There are 4 snakes around the map that move every 0.5 seconds \n");
+    printf("     * If a snake is 1 tile away from a player, then they are in the danger zone and can be killed\n");
+    printf("     * Snakes can't go through anything on the map other than the players and walkable areas\n");
+    printf("     * If the snake kills both players, you lose\n\n");
+
+    printf("     Game Mechanics\n");
+    printf("     --------------\n");
+    printf("     * The aim of the game is to find the treasure\n");
+    printf("     * If either player goes onto the $, you win\n\n");
+
+    printf("     * You nor the snake can go through walls\n\n");
+
+    printf("     * There are 2 lanterns and 2 shields on the map\n");
+    printf("     * The lantern enhances your sight from seeing 2 tiles around you, to seeing 4 tiles around you\n");
+    printf("     * The lantern is a permanent buff until you die\n\n");
+
+    printf("     * The shield gives you the ability to go through snakes without dying\n");
+    printf("     * The shield is a one time buff and lasts 8 seconds, with the buff starting immediately on pick-up\n");
+    printf("     * Once the 8 seconds are up, the shield breaks and your immunity goes away\n\n");
+
+    printf("     * There is 1 reboot van on the map, this van allows for dead players to come back\n");
+    printf("     * When a player dies, their number (either 1 or 2) turns into an X\n");
+    printf("     * If the dead player had a lantern, then they'll drop it and it'll reappear at where it spawned\n");
+    printf("     * If they picked up both lanterns, only the most recently picked up lantern will be placed back on the map\n");
+    printf("     * In order to revive a dead player, the other player must go to the tile with the X\n");
+    printf("     * Once on the tile, the reboot card will be picked up\n");
+    printf("     * Now find the reboot van and wait on the van's tile for 5 seconds\n");
+    printf("     * After 5 seconds, the dead player will be revived at the van\n");
+    printf("     * They may not be visually shown after 5 seconds but they will be there, so just move around\n");
+    printf("     * Revived players always spawn with a sight of 2\n");
+    printf("     * Players can be revived infinitely and the van doesn't have a cooldown\n\n");
+
+    printf("     Visual Bugs\n");
+    printf("     -----------\n");
+    printf("     * You go invisible when you enter a tile where a player just died, and when a snake goes on you when you have a shield\n");
+    printf("     * The 'Player's reboot card has been collected' message will appear if the snake kills you while your on its tile and your shield runs out of time\n\n");
+
+    printf("     Scroll up to see all the tool tips\n");
+    printf("     Press 'e' to enter the labyrinth...\n");
+}
+
 void printMap(Player players[], Snake snakes[])
 {
     system("tput cup 0 0");
@@ -229,15 +322,13 @@ void printMap(Player players[], Snake snakes[])
     // Time and messages at bottom
     time_t current_time;
     time(&current_time);
-    printf("\033[16;60H%s", ctime(&current_time));
+    printf("\033[18;60H%s", ctime(&current_time));
 
-    // Wall hit messages
-    int msg_line = 17;
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if(players[i].hitWallFlag)
         {
-            printf("\033[%d;60HOUCH, WHO PUT THIS WALL HERE?!\n", msg_line++);
+            printf("\033[19;60HOUCH, WHO PUT THIS WALL HERE?!\n");
             players[i].hitWallFlag = 0;
         }
     }
