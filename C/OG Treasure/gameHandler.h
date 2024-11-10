@@ -3,33 +3,33 @@
 
 typedef struct
 {
-    int** mapData;
+    int **mapData;
     int rows;
     int cols;
     int xCoord;
     int yCoord;
-    int undoX;
-    int undoY;
+    int prevX;
+    int prevY;
     int hitWallFlag;
     int lanternCollected;
-    int lanternXCoords;
-    int lanternYCoords;
+    int lanternXCoord;
+    int lanternYCoord;
     int sight;
 } Player;
 
 typedef struct
 {
-    int** mapData;
+    int **mapData;
     int rows;
     int cols;
     int xCoord;
     int yCoord;
-    int undoX;
-    int undoY;
+    int prevX;
+    int prevY;
     int hitWallFlag;
 } Snake;
 
-void characterInput(Player *playerState, Snake *snakeState);
+void runGame(Player *playerState, Snake *snakeState);
 void printMap(Player *playerState, Snake *snakeState);
 void keyBinds();
 int winCondition(Player *playerState, Snake *snakeState);

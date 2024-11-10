@@ -3,10 +3,10 @@
 #include "gameHandler.h"
 #include "linkedList.h"
 
-int playerCoords(Player *playerState, Snake *snakeState, char ch, linkedList *playerList, linkedList *snakeList);
-void movement(Player *state, char ch, linkedList *list);
+int playerCoords(Player *playerState, Snake *snakeState, char keyBind, linkedList *playerList, linkedList *snakeList);
+void movement(Player *state, char keyBind, linkedList *list);
 void undoMovement(Player *state, linkedList *list);
 void hitWall(Player *state);
-int initializePlayer(Player *state, int rows, int cols, int** data);
+void initializePlayer(Player *state, int rows, int cols, int **data);
 
 #endif

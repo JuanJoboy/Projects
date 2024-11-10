@@ -7,9 +7,9 @@
 #include "mapReader.h"
 #include "playerMovement.h"
 
-void characterInput(Player *playerState, Snake *snakeState)
+void runGame(Player *playerState, Snake *snakeState)
 {
-    char ch;
+    char keyBind;
     int running = 1;
 
     linkedList *playerList = NULL;
@@ -17,25 +17,25 @@ void characterInput(Player *playerState, Snake *snakeState)
     playerList = createList();
     snakeList = createList();
     
-    keyBinds(); /* Prints the key-binds immediately */
-    
+    printMap(playerState, snakeState);
+
     while(running) 
     {
         disableBuffer();
-        scanf(" %c", &ch);
+        scanf(" %c", &keyBind);
         enableBuffer();
 
-        if(ch == 'e')
+        if(keyBind == 'e')
         {
-            running = 0; /* If i press "e", I exit the game */
+            running = 0; /* I know we're meant to ignore every other key but having an exit button is so much cleaner than pressing ctrl+c */
         }
         else
         {
-            running = playerCoords(playerState, snakeState, ch, playerList, snakeList); /* If I win or lose, I exit the game */
+            running = playerCoords(playerState, snakeState, keyBind, playerList, snakeList); /* If I win or lose, I exit the game */
         }
     }
 
-    /* If I exit or win or lose, all valid nodes in the list are freed. The undo functions free the nodes that are undone when I press "u" and any invalid nodes such as nodes created when I press "j" or something are immediately freed in the movement function */
+    /* If I exit or win or lose, all valid nodes in the list are freed immediately */
     freeList(playerList, &freePlayer);
     freeList(snakeList, &freeSnake);
 }
@@ -82,7 +82,7 @@ int winCondition(Player *playerState, Snake *snakeState)
         printf("\nYou found the treasure!\n");
         printf("You win!\n");
         fflush(stdout); /* Forces the message to be printed immediately */
-        newSleep(2.0);
+        newSleep(2.0); /* Sleep for 2 seconds so that the message isn't overwritten by the terminal stuff */
         exit = 1;
     }
     else if((playerState->yCoord == snakeState->yCoord) && (playerState->xCoord == snakeState->xCoord))

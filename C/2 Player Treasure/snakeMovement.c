@@ -6,27 +6,33 @@
 #include "mapReader.h"
 #include "linkedList.h"
 
-void snakeCoords(Snake *snakeState, Player *playerState, linkedList *list)
+void snakeCoords(Snake snakes[], Player players[], linkedList *snakeList[])
 {
-    snakeState->prevX = snakeState->xCoord;
-    snakeState->prevY = snakeState->yCoord;
+    for(int i = 0; i < MAX_SNAKES; i++) {
+        // Store previous position
+        snakes[i].prevX = snakes[i].xCoord;
+        snakes[i].prevY = snakes[i].yCoord;
 
-    snakeState->mapData[snakeState->yCoord][snakeState->xCoord] = 0;  /* Turns the current spot on the map into an empty space */
+        // Clear current position
+        snakes[i].mapData[snakes[i].yCoord][snakes[i].xCoord] = 0;
 
-    snakeMove(snakeState, list); /* Allows the snake to move */
+        // Move snake
+        snakeMove(&snakes[i], snakeList[i]);
+        restrictMovement(&snakes[i]);
 
-    restrictMovement(snakeState); /* Restricts it from going into walls, the treasure and the lantern */
+        // Update map with new position
+        snakes[i].mapData[snakes[i].yCoord][snakes[i].xCoord] = 4;
 
-    snakeState->mapData[snakeState->yCoord][snakeState->xCoord] = 4; /* Turns the current spot on the map into the snake */
-
-    killPlayer(snakeState, playerState); /* If i'm close enough the snake will kill me */
+        // Check for player collision
+        killPlayer(&snakes[i], players);
+    }
 }
+
 
 void restrictMovement(Snake *state)
 {
     if(state->mapData[state->yCoord][state->xCoord] == 1)
     {
-        state->hitWallFlag = 1; /* An unecessary flag just so the hiss hiss message can play in the printMap() function */
         state->xCoord = state->prevX; /* Reverts the snake's position back to the previous position that are stored in the prevX and prevY variables */
         state->yCoord = state->prevY;
     }
@@ -38,6 +44,18 @@ void restrictMovement(Snake *state)
     }
     
     else if(state->mapData[state->yCoord][state->xCoord] == 2)
+    {
+        state->xCoord = state->prevX;
+        state->yCoord = state->prevY;
+    }
+
+    else if(state->mapData[state->yCoord][state->xCoord] == 6)
+    {
+        state->xCoord = state->prevX;
+        state->yCoord = state->prevY;
+    }
+
+    else if(state->mapData[state->yCoord][state->xCoord] == 8)
     {
         state->xCoord = state->prevX;
         state->yCoord = state->prevY;
@@ -136,51 +154,56 @@ void snakeMove(Snake *state, linkedList *list)
     }
 }
 
-void killPlayer(Snake *snakeState, Player *playerState)
+void killPlayer(Snake *snakes, Player players[])
 {
-    int xDiffCoords = (playerState->xCoord) - (snakeState->xCoord);
-    int yDiffCoords = (playerState->yCoord) - (snakeState->yCoord);
+    for(int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if(!players[i].dead)
+        {
+            int xDiffCoords = (players[i].xCoord) - (snakes->xCoord);
+            int yDiffCoords = (players[i].yCoord) - (snakes->yCoord);
 
-    if((xDiffCoords == 0) && (yDiffCoords == -1)) /* Im above */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == -1) && (yDiffCoords == -1)) /* Im above and to the left */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == -1) && (yDiffCoords == 0)) /* Im on the left */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == -1) && (yDiffCoords == 1)) /* Im below and to the left */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == 0) && (yDiffCoords == 1)) /* Im below */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == 1) && (yDiffCoords == 1)) /* Im below and to the right */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == 1) && (yDiffCoords == 0)) /* Im on the right */
-    {
-        killPlayerHelper(snakeState, playerState);
-    }
-    else if((xDiffCoords == 1) && (yDiffCoords == -1)) /* Im above and to the right */
-    {
-        killPlayerHelper(snakeState, playerState);
+            if((xDiffCoords == 0) && (yDiffCoords == -1)) /* Im above */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == -1) && (yDiffCoords == -1)) /* Im above and to the left */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == -1) && (yDiffCoords == 0)) /* Im on the left */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == -1) && (yDiffCoords == 1)) /* Im below and to the left */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == 0) && (yDiffCoords == 1)) /* Im below */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == 1) && (yDiffCoords == 1)) /* Im below and to the right */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == 1) && (yDiffCoords == 0)) /* Im on the right */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+            else if((xDiffCoords == 1) && (yDiffCoords == -1)) /* Im above and to the right */
+            {
+                killPlayerHelper(snakes, &players[i]);
+            }
+        }
     }
 }
 
-void killPlayerHelper(Snake *snakeState, Player *playerState)
+void killPlayerHelper(Snake *snake, Player *player)
 {
-    snakeState->mapData[snakeState->yCoord][snakeState->xCoord] = 0; /* Clear where the snake used to be */
-    snakeState->yCoord = playerState->yCoord; /* Set the snakes coords to my coords */
-    snakeState->xCoord = playerState->xCoord;
-    snakeState->mapData[snakeState->yCoord][snakeState->xCoord] = 4; /* Kill me*/
+    player->dead = 1;
+    snake->mapData[player->yCoord][player->xCoord] = 6; // Set X (reboot card) at player's current position before moving them
+    snake->mapData[snake->yCoord][snake->xCoord] = 4;  // Place snake at player position
 }
 
 void undoSnake(Snake *state, linkedList *list)
@@ -207,7 +230,6 @@ void initializeSnake(Snake *state, int mapRows, int mapCols, int **data)
     state->yCoord = -1;
     state->prevX = state->xCoord;
     state->prevY = state->yCoord;
-    state->hitWallFlag = 0;
 
     snakeFinder(data, mapRows, mapCols, &state->xCoord, &state->yCoord);
 }

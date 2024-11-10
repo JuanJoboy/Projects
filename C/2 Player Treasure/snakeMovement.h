@@ -3,11 +3,11 @@
 #include "gameHandler.h"
 #include "linkedList.h"
 
-void snakeCoords(Snake *snakeState, Player *playerState, linkedList *list);
+void snakeCoords(Snake snakes[], Player players[], linkedList *snakeList[]);
 void restrictMovement(Snake *state);
 void snakeMove(Snake *state, linkedList *list);
-void killPlayer(Snake *snakeState, Player *playerState);
-void killPlayerHelper(Snake *snakeState, Player *playerState);
+void killPlayer(Snake *snakes, Player players[]);
+void killPlayerHelper(Snake *snake, Player *player);
 void undoSnake(Snake *state, linkedList *list);
 void initializeSnake(Snake *state, int rows, int cols, int **data);
 

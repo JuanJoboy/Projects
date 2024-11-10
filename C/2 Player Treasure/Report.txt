@@ -1,0 +1,54 @@
+- The printf() statements for when I win or lose dont play unless I do newSleep(). They get overwritten by the terminal so i do newSleep() to give the user time to read the message.
+- The player symbol doesn't overwrite the treasure symbol when it gets to it. When the snake eats the player, it takes over its tile and the player symbol disappears. This does not happen when the player acquires the treasure until after the newsleep() function finishes and the game fully exits.
+
+*** Using Arrays instead of pointer-Mallocs ***
+-- Using arrays in this case is actually the better approach! Since you know the maximum number of players and snakes at compile time (MAX_PLAYERS and MAX_SNAKES), stack allocation with arrays is more efficient and cleaner than heap allocation. The code becomes more readable and maintainable without all those pointer declarations and malloc/free calls.
+
+The linked lists you're using for movement history are perfect for their dynamic nature, but for the game entities themselves, fixed-size arrays are ideal. They provide:
+
+Simpler memory management (no manual malloc/free)
+Better cache locality
+Cleaner function signatures
+More straightforward iteration through entities
+Less potential for memory leaks
+Your instinct to avoid having 30+ pointers in function prototypes is spot on - the array approach keeps the code much more manageable while still being efficient.
+
+-- A race condition is a fascinating concurrency issue that occurs when multiple threads or processes access shared resources in an unpredictable order. In your game:
+
+Thread 1 (Snake Thread):
+
+Snake moves and kills player
+Sets player.dead = 1
+Thread 2 (Player Thread):
+
+Reads player movement input
+Checks if player can move
+Processes movement
+The race happens in the tiny time gap between:
+
+Snake killing the player
+Player's movement code checking the dead status
+Sometimes the movement check happens just before the dead status is set, allowing one final move before the dead check catches up and freezes the player.
+
+This is why adding the dead check at the start of movement functions works - it creates an immediate barrier that catches the dead status before any movement processing begins, eliminating that brief window where the race condition could occur.
+
+Race conditions are a key concept in concurrent programming, and understanding them helps build more robust multi-threaded applications.
+
+++ I thought the issue was that the array or list was being destroyed if player 1 died, but it was actually because the player had not discovered the van yet. In order to be revived, the player needs to go to the van tile to save its information, if they never go on that tile then they cant be revived. I discovered this when I moved the van to another spot and player 2 couldnt be revived anymore, because the other spot where the van was, was directly above players 2 spawn point, so in order to do my testing, I was forcibly making player 2 go through the tile, and somehow I never tested player 1 going just slightly downwards
+The - is where it was initially, before I moved it to the 8
+
+0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0
+0 3 0 0 0 0 0 0 0 0 0 0 0 0 2 1 0 1 1 0
+0 0 0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 1 0 0
+1 0 1 0 0 0 1 0 0 8 1 0 1 0 0 0 0 1 0 1
+1 0 1 1 1 0 1 0 1 1 1 4 1 0 1 0 0 1 0 1
+1 0 1 0 0 0 1 0 0 0 0 0 1 0 1 1 0 1 0 1
+1 0 1 0 4 0 1 1 1 1 0 1 1 0 0 1 0 1 0 1
+1 - 1 0 0 0 0 0 0 0 0 1 1 1 1 1 0 1 0 1
+1 0 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 1 4 1
+1 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 1 0 1
+1 0 1 2 0 0 1 0 0 0 1 0 0 0 5 1 0 1 0 1
+1 0 1 1 1 0 1 1 1 0 1 0 1 1 1 1 0 1 0 1
+1 0 1 1 0 0 0 1 1 0 1 0 0 0 0 0 0 1 0 1
+1 7 1 0 1 0 1 0 1 4 1 1 1 1 1 1 1 1 0 1
+1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1

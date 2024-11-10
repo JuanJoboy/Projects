@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mapReader.h"
+#include "gameHandler.h"
 
 /* Rows and cols are pointers because I want to modify the values that are passed in from the main (0 and 0) */
 int openMap(char *filename, FILE **file, int *rows, int *cols)
@@ -29,7 +30,6 @@ int openMap(char *filename, FILE **file, int *rows, int *cols)
 */
 int** allocateMapMemory(int rows, int cols)
 {
-    int i;
     int allocationFailed = FALSE;
     int **data = NULL;
 
@@ -37,7 +37,7 @@ int** allocateMapMemory(int rows, int cols)
 
     if(data != NULL)
     {
-        for(i = 0; i < rows && !allocationFailed; i++)
+        for(int i = 0; i < rows && !allocationFailed; i++)
         {
             data[i] = (int*)malloc(cols * sizeof(int));
 
@@ -64,41 +64,34 @@ int** allocateMapMemory(int rows, int cols)
 
 void readMap(FILE *file, int **data, int rows, int cols)
 {
-    int i, j;
-    int walls;
-    
-    fscanf(file, "%d", &walls); /* Reads the second line to see how many walls there are */
-
-    for(i = 0; i < rows; i++)
+    for(int i = 0; i < rows; i++)
     {
-        for(j = 0; j < cols; j++)
+        for(int j = 0; j < cols; j++)
         {
             fscanf(file, "%d", &data[i][j]); /* Reads the actual map data at each tile*/
         }
     }
 }
 
-void writeToTerminal(int **data, int rows, int cols, int *xCoord, int *yCoord, int sight)
+void writeToTerminal(int **data, int rows, int cols, int *xCoord1, int *yCoord1, int *xCoord2, int *yCoord2, int sight, int sight2)
 {
-    int i;
-
     system("clear"); /* Clears the terminal */
 
     /* Top Border */
-    for(i = 0; i < cols + 2; i++)
+    for(int i = 0; i < cols + 2; i++)
     {
         printf("* ");
     }
     printf("\n");
 
     #ifdef DARK
-        darkVision(data, rows, cols, xCoord, yCoord, sight);
+        darkVision(data, rows, cols, xCoord1, yCoord1, xCoord2, yCoord2, sight, sight2);
     #else
-        notDark(data, rows, cols, xCoord, yCoord);
+        notDark(data, rows, cols, xCoord1, yCoord1);
     #endif
     
     /* Bottom Border */
-    for(i = 0; i < cols + 2; i++)
+    for(int i = 0; i < cols + 2; i++)
     {
         printf("* ");
     }
@@ -107,12 +100,10 @@ void writeToTerminal(int **data, int rows, int cols, int *xCoord, int *yCoord, i
 
 void notDark(int **data, int rows, int cols, int *xCoord, int *yCoord)
 {
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    for(int i = 0; i < rows; i++)
     {
         printf("* "); /* Left border */
-        for(j = 0; j < cols; j++)
+        for(int j = 0; j < cols; j++)
         {
             switch(data[i][j])
             {
@@ -126,7 +117,10 @@ void notDark(int **data, int rows, int cols, int *xCoord, int *yCoord)
                     printf("@ "); /* Lantern */
                     break;
                 case 3:
-                    printf("P "); /* Player */
+                    printf("1 "); /* Player */
+                    break;
+                case 7:
+                    printf("2 "); /* Player */
                     break;
                 case 4:
                     printf("~ "); /* Snake */
@@ -134,22 +128,26 @@ void notDark(int **data, int rows, int cols, int *xCoord, int *yCoord)
                 case 5:
                     printf("$ "); /* Treasure */
                     break;
+                case 6:
+                    printf("X "); /* Reboot Card */
+                    break;
+                case 8:
+                    printf("+ "); /* Reboot Van */
+                    break;
             }
         }
         printf("*\n"); /* Right Border */
     }
 }
 
-void darkVision(int **data, int rows, int cols, int *xCoord, int *yCoord, int sight)
+void darkVision(int **data, int rows, int cols, int *xCoord1, int *yCoord1, int *xCoord2, int *yCoord2, int sight, int sight2)
 {
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    for(int i = 0; i < rows; i++)
     {
         printf("* "); /* Left border */
-        for(j = 0; j < cols; j++)
+        for(int j = 0; j < cols; j++)
         {
-            if(abs(i - *yCoord) + abs(j - *xCoord) <= sight)
+            if((abs(i - *yCoord1) + abs(j - *xCoord1) <= sight) || (abs(i - *yCoord2) + abs(j - *xCoord2) <= sight2))
             {
                 switch(data[i][j])
                 {
@@ -163,13 +161,22 @@ void darkVision(int **data, int rows, int cols, int *xCoord, int *yCoord, int si
                         printf("@ "); /* Lantern */
                         break;
                     case 3:
-                        printf("P "); /* Player */
+                        printf("1 "); /* Player */
+                        break;
+                    case 7:
+                        printf("2 "); /* Player */
                         break;
                     case 4:
                         printf("~ "); /* Snake */
                         break;
                     case 5:
                         printf("$ "); /* Treasure */
+                        break;
+                    case 6:
+                        printf("X "); /* Reboot Card */
+                        break;
+                    case 8:
+                        printf("+ "); /* Reboot Van */
                         break;
                 }
             }
@@ -182,13 +189,11 @@ void darkVision(int **data, int rows, int cols, int *xCoord, int *yCoord, int si
     }
 }
 
-void playerFinder(int **data, int rows, int cols, int *xCoord, int *yCoord)
+void player1Finder(int **data, int rows, int cols, int *xCoord, int *yCoord)
 {
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    for(int i = 0; i < rows; i++)
     {
-        for(j = 0; j < cols; j++)
+        for(int j = 0; j < cols; j++)
         {
             if(data[i][j] == 3)
             {
@@ -199,18 +204,68 @@ void playerFinder(int **data, int rows, int cols, int *xCoord, int *yCoord)
     }
 }
 
-void snakeFinder(int **data, int rows, int cols, int*xCoord, int*yCoord)
+void player2Finder(int **data, int rows, int cols, int *xCoord, int *yCoord)
 {
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    for(int i = 0; i < rows; i++)
     {
-        for(j = 0; j < cols; j++)
+        for(int j = 0; j < cols; j++)
+        {
+            if(data[i][j] == 7)
+            {
+                *xCoord = j; /* j represents the x coordinate because x is the column */
+                *yCoord = i;
+            }
+        }
+    }
+}
+
+void vanFinder(int **data, int rows, int cols, int *vanXCoord, int *vanYCoord)
+{
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
+        {
+            if(data[i][j] == 8)
+            {
+                *vanXCoord = j;
+                *vanYCoord = i;
+                return;
+            }
+        }
+    }
+}
+
+void snakeFinder(int **data, int rows, int cols, int *xCoord, int *yCoord)
+{
+    static int foundSnakes[MAX_SNAKES][2] = {{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}}; // Array to store found snake positions because all other implementations weren't properly tracking every snake. Static is used to keep the array values between function calls. Otherwise, the snake would keep getting overwritten.
+    static int currentSnake = 0;
+    
+    for(int i = 0; i < rows; i++)
+    {
+        for(int j = 0; j < cols; j++)
         {
             if(data[i][j] == 4)
             {
-                *xCoord = j;
-                *yCoord = i;
+                // Check if this position was already assigned
+                int alreadyFound = 0;
+                for(int k = 0; k < currentSnake; k++)
+                {
+                    if(foundSnakes[k][0] == j && foundSnakes[k][1] == i)
+                    {
+                        alreadyFound = 1;
+                        break;
+                    }
+                }
+                
+                if(!alreadyFound && currentSnake < MAX_SNAKES)
+                {
+                    foundSnakes[currentSnake][0] = j;
+                    foundSnakes[currentSnake][1] = i;
+                    *xCoord = j;
+                    *yCoord = i;
+                    currentSnake++;
+                    return;
+                }
             }
         }
     }
@@ -218,11 +273,9 @@ void snakeFinder(int **data, int rows, int cols, int*xCoord, int*yCoord)
 
 void cleanupData(int **data, int rows)
 {
-    int i;
-
     if(data != NULL)
     {
-        for(i = 0; i < rows; i++)
+        for(int i = 0; i < rows; i++)
         {
             if(data[i] != NULL)
             {

@@ -1,9 +1,10 @@
 CC = gcc
-CFLAGS = -Wall -ansi -pedantic -g
+CFLAGS = -Wall -pedantic -g -Werror
 VALGRIND_FLAGS = --leak-check=full -s --show-leak-kinds=all --track-origins=yes
 OBJ = main.o terminal.o random.o newSleep.o mapReader.o gameHandler.o playerMovement.o snakeMovement.o linkedList.o
 EXEC = treasure
-PARAMETER = hardcore.txt
+HARDCORE = hardcore.txt
+EXPERT = expert.txt
 
 ifdef DARK
 CFLAGS += -D DARK
@@ -25,7 +26,7 @@ random.o : random.c random.h
 newSleep.o : newSleep.c newSleep.h
 	$(CC) $(CFLAGS) newSleep.c -c
 
-mapReader.o : mapReader.c mapReader.h
+mapReader.o : mapReader.c mapReader.h gameHandler.h
 	$(CC) $(CFLAGS) mapReader.c -c
 
 gameHandler.o : gameHandler.c gameHandler.h newSleep.h terminal.h mapReader.h playerMovement.h
@@ -40,19 +41,27 @@ snakeMovement.o : snakeMovement.c snakeMovement.h random.h mapReader.h linkedLis
 linkedList.o : linkedList.c linkedList.h gameHandler.h
 	$(CC) $(CFLAGS) linkedList.c -c
 
-# make run
-run : clean $(EXEC)
-	./$(EXEC) $(PARAMETER)
+# make runHard
+runHard : clean $(EXEC)
+	./$(EXEC) $(HARDCORE)
 
-# make runDark (enables dark mode)
-runDark: clean
+# make runDarkHard
+runDarkHard: clean
 	$(MAKE) DARK=1
-	./$(EXEC) $(PARAMETER)
+	./$(EXEC) $(HARDCORE)
+
+# make runExpert
+runExpert : clean $(EXEC)
+	./$(EXEC) $(EXPERT)
+
+# make runDarkExpert
+runDarkExpert: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(EXPERT)
 
 # make valgrind
-# Press 'e' to exit the game and see the full valgrind
-valgrind: $(EXEC) $(PARAMETER)
-	valgrind $(VALGRIND_FLAGS) ./$(EXEC) $(PARAMETER)
+valgrind: $(EXEC) $(HARDCORE)
+	valgrind $(VALGRIND_FLAGS) ./$(EXEC) $(HARDCORE)
 
 # make clean
 clean :
