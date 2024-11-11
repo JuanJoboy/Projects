@@ -72,9 +72,9 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 2)
         {
-            players[i].lanternCollected = 1;
-            players[i].lanternXCoord = players[i].xCoord; /* I need to store the coords of the lantern so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 2, it won't work since 2 doesn't exist on the map anymore, it needs to be the specific spot where the lantern was */
-            players[i].lanternYCoord = players[i].yCoord;
+            players[i].flashlightCollected = 1;
+            players[i].flashlightXCoord = players[i].xCoord; /* I need to store the coords of the flashlight so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 2, it won't work since 2 doesn't exist on the map anymore, it needs to be the specific spot where the flashlight was */
+            players[i].flashlightYCoord = players[i].yCoord;
             #ifdef DARK
                 players[i].sight = 4;
             #endif
@@ -120,13 +120,13 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 8)
         {
-            players[i].vanXCoord = players[i].xCoord; /* I need to store the coords of the van so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 8, it won't work since 8 doesn't exist on the map anymore, it needs to be the specific spot where the van was */
-            players[i].vanYCoord = players[i].yCoord;
+            players[i].ambulanceXCoord = players[i].xCoord; /* I need to store the coords of the ambulance so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 8, it won't work since 8 doesn't exist on the map anymore, it needs to be the specific spot where the ambulance was */
+            players[i].ambulanceYCoord = players[i].yCoord;
         }
 
-        if(players[i].vanXCoord != -1 && players[i].vanYCoord != -1) // Now that ive saved the coords of the van, as long as its not -1,-1 (it cant be since thats not a valid coord) I can make it always appear */
+        if(players[i].ambulanceXCoord != -1 && players[i].ambulanceYCoord != -1) // Now that ive saved the coords of the ambulance, as long as its not -1,-1 (it cant be since thats not a valid coord) I can make it always appear */
         {
-            players[i].mapData[players[i].vanYCoord][players[i].vanXCoord] = 8;
+            players[i].mapData[players[i].ambulanceYCoord][players[i].ambulanceXCoord] = 8;
         }
     }
 
@@ -151,8 +151,8 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
             playerList[1] = createList();
             
             players[1].dead = 0;
-            players[1].xCoord = players[1].vanXCoord;
-            players[1].yCoord = players[1].vanYCoord;
+            players[1].xCoord = players[1].ambulanceXCoord;
+            players[1].yCoord = players[1].ambulanceYCoord;
             players[1].mapData[players[1].yCoord][players[1].xCoord] = 7;
             players[1].sight = 2;
             
@@ -182,8 +182,8 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
             playerList[0] = createList();
             
             players[0].dead = 0;
-            players[0].xCoord = players[0].vanXCoord;
-            players[0].yCoord = players[0].vanYCoord;
+            players[0].xCoord = players[0].ambulanceXCoord;
+            players[0].yCoord = players[0].ambulanceYCoord;
             players[0].mapData[players[0].yCoord][players[0].xCoord] = 7;
             players[0].sight = 2;
             
@@ -354,10 +354,10 @@ void undoMovement(Player *state, linkedList *list)
 
     if(undoState != NULL)
     {
-        if((state->lanternCollected == 1) && (undoState->lanternCollected == 0)) /* Checks if I currently have the lantern, and if I didn't have it before. If I do have the lantern now, and before, then I don't need to put it back, but if my last move didn't have the lantern, then I need to put it back on the map. */
+        if((state->flashlightCollected == 1) && (undoState->flashlightCollected == 0)) /* Checks if I currently have the flashlight, and if I didn't have it before. If I do have the flashlight now, and before, then I don't need to put it back, but if my last move didn't have the flashlight, then I need to put it back on the map. */
         {
-            state->lanternCollected = 0;
-            state->mapData[state->lanternYCoord][state->lanternXCoord] = 2; /* Physically places the lantern back on the map */
+            state->flashlightCollected = 0;
+            state->mapData[state->flashlightYCoord][state->flashlightXCoord] = 2; /* Physically places the flashlight back on the map */
             #ifdef DARK
                 state->sight = 2;
             #endif
@@ -399,12 +399,12 @@ void initializePlayer1(Player *state, int mapRows, int mapCols, int **data)
     state->prevX = state->xCoord;
     state->prevY = state->yCoord;
     state->hitWallFlag = 0;
-    state->lanternCollected = 0;
-    state->lanternXCoord = -1;
-    state->lanternYCoord = -1;
+    state->flashlightCollected = 0;
+    state->flashlightXCoord = -1;
+    state->flashlightYCoord = -1;
     state->dead = 0;
-    state->vanXCoord = -1;
-    state->vanYCoord = -1;
+    state->ambulanceXCoord = -1;
+    state->ambulanceYCoord = -1;
     state->cardCollected = 0;
     state->waitingForRevive = 0;
     state->startTime = 0;
@@ -418,7 +418,7 @@ void initializePlayer1(Player *state, int mapRows, int mapCols, int **data)
     #endif
 
     player1Finder(data, mapRows, mapCols, &state->xCoord, &state->yCoord);
-    vanFinder(data, mapRows, mapCols, &state->vanXCoord, &state->vanYCoord);
+    ambulanceFinder(data, mapRows, mapCols, &state->ambulanceXCoord, &state->ambulanceYCoord);
 }
 
 void initializePlayer2(Player *state, int mapRows, int mapCols, int **data)
@@ -431,12 +431,12 @@ void initializePlayer2(Player *state, int mapRows, int mapCols, int **data)
     state->prevX = state->xCoord;
     state->prevY = state->yCoord;
     state->hitWallFlag = 0;
-    state->lanternCollected = 0;
-    state->lanternXCoord = -1;
-    state->lanternYCoord = -1;
+    state->flashlightCollected = 0;
+    state->flashlightXCoord = -1;
+    state->flashlightYCoord = -1;
     state->dead = 0;
-    state->vanXCoord = -1;
-    state->vanYCoord = -1;
+    state->ambulanceXCoord = -1;
+    state->ambulanceYCoord = -1;
     state->cardCollected = 0;
     state->waitingForRevive = 0;
     state->startTime = 0;
@@ -450,7 +450,7 @@ void initializePlayer2(Player *state, int mapRows, int mapCols, int **data)
     #endif
 
     player2Finder(data, mapRows, mapCols, &state->xCoord, &state->yCoord);
-    vanFinder(data, mapRows, mapCols, &state->vanXCoord, &state->vanYCoord);
+    ambulanceFinder(data, mapRows, mapCols, &state->ambulanceXCoord, &state->ambulanceYCoord);
 }
 
 

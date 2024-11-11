@@ -14,7 +14,7 @@ void darkVision(int** data, int rows, int cols, int* xCoord1, int* yCoord1, int*
 void player1Finder(int** data, int rows, int cols, int* xCoord, int* yCoord);
 void player2Finder(int** data, int rows, int cols, int* xCoord, int* yCoord);
 void snakeFinder(int **data, int rows, int cols, int *xCoord, int *yCoord);
-void vanFinder(int** data, int rows, int cols, int* vanXCoord, int* vanYCoord);
+void ambulanceFinder(int** data, int rows, int cols, int* ambulanceXCoord, int* ambulanceYCoord);
 void cleanupData(int** data, int rows);
 void errorMessage(char* message);
 

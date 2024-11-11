@@ -16,13 +16,13 @@ typedef struct
     int prevX;
     int prevY;
     int hitWallFlag;
-    int lanternCollected;
-    int lanternXCoord;
-    int lanternYCoord;
+    int flashlightCollected;
+    int flashlightXCoord;
+    int flashlightYCoord;
     int sight;
     int dead;
-    int vanXCoord;
-    int vanYCoord;
+    int ambulanceXCoord;
+    int ambulanceYCoord;
     int cardCollected;
     int waitingForRevive;
     time_t startTime;

@@ -111,31 +111,31 @@ void notDark(int **data, int rows, int cols, int *xCoord, int *yCoord)
                     printf("  "); /* Empty space */
                     break;
                 case 1:
-                    printf("O "); /* Wall */
+                    printf("▧ "); /* Wall */
                     break;
                 case 2:
-                    printf("@ "); /* Lantern */
+                    printf("🔦"); /* Flashlight */
                     break;
                 case 3:
-                    printf("1 "); /* Player */
+                    printf("1️⃣ "); /* Player */
                     break;
                 case 7:
-                    printf("2 "); /* Player */
+                    printf("2️⃣ "); /* Player */
                     break;
                 case 4:
-                    printf("~ "); /* Snake */
+                    printf("🐍"); /* Snake */
                     break;
                 case 5:
-                    printf("$ "); /* Treasure */
+                    printf("💰"); /* Treasure */
                     break;
                 case 6:
-                    printf("X "); /* Reboot Card */
+                    printf("❤️ "); /* Heart */
                     break;
                 case 8:
-                    printf("+ "); /* Reboot Van */
+                    printf("🚑"); /* Ambulance */
                     break;
                 case 9:
-                    printf("H "); /* Shield */
+                    printf("🛡️ "); /* Shield */
                     break;
             }
         }
@@ -155,34 +155,34 @@ void darkVision(int **data, int rows, int cols, int *xCoord1, int *yCoord1, int 
                 switch(data[i][j])
                 {
                     case 0:
-                        printf(". "); /* Empty space */
+                        printf("  "); /* Empty space */
                         break;
                     case 1:
-                        printf("O "); /* Wall */
+                        printf("▧ "); /* Wall */
                         break;
                     case 2:
-                        printf("@ "); /* Lantern */
+                        printf("🔦"); /* Flashlight */
                         break;
                     case 3:
-                        printf("1 "); /* Player */
+                        printf("1️⃣ "); /* Player */
                         break;
                     case 7:
-                        printf("2 "); /* Player */
+                        printf("2️⃣ "); /* Player */
                         break;
                     case 4:
-                        printf("~ "); /* Snake */
+                        printf("🐍"); /* Snake */
                         break;
                     case 5:
-                        printf("$ "); /* Treasure */
+                        printf("💰"); /* Treasure */
                         break;
                     case 6:
-                        printf("X "); /* Reboot Card */
+                        printf("❤️ "); /* Heart */
                         break;
                     case 8:
-                        printf("+ "); /* Reboot Van */
+                        printf("🚑 "); /* Ambulance */
                         break;
                     case 9:
-                        printf("H "); /* Shield */
+                        printf("🛡️ "); /* Shield */
                         break;
                 }
             }
@@ -225,7 +225,7 @@ void player2Finder(int **data, int rows, int cols, int *xCoord, int *yCoord)
     }
 }
 
-void vanFinder(int **data, int rows, int cols, int *vanXCoord, int *vanYCoord)
+void ambulanceFinder(int **data, int rows, int cols, int *ambulanceXCoord, int *ambulanceYCoord)
 {
     for(int i = 0; i < rows; i++)
     {
@@ -233,8 +233,8 @@ void vanFinder(int **data, int rows, int cols, int *vanXCoord, int *vanYCoord)
         {
             if(data[i][j] == 8)
             {
-                *vanXCoord = j;
-                *vanYCoord = i;
+                *ambulanceXCoord = j;
+                *ambulanceYCoord = i;
                 return;
             }
         }

@@ -141,13 +141,14 @@ void toolTips()
     printf("     * In dark mode, blank spaces are areas that the player can't see\n");
     printf("     * In non-dark mode, blank spaces are the areas that the player can walk on\n\n");
 
-    printf("     * 'O' represents walls\n");
-    printf("     * '@' represents the lantern\n");
-    printf("     * 'H' represents the shield\n");
-    printf("     * '$' represents the treasure\n");
-    printf("     * 'X' represents the reboot card\n");
-    printf("     * '+' represents the reboot van\n");
-    printf("     * '~' represents the snake\n\n");
+    printf("     * '   ' represents walkable space\n");
+    printf("     * '▧  ' represents walls\n");
+    printf("     * '🔦 ' represents the flashlight\n");
+    printf("     * '🛡️  ' represents the shield\n");
+    printf("     * '💰 ' represents the treasure\n");
+    printf("     * '❤️  ' represents the heart\n");
+    printf("     * '🚑 ' represents the ambulance\n");
+    printf("     * '🐍 ' represents the snake\n\n");
 
     printf("     * There are 4 snakes around the map that move every 0.5 seconds \n");
     printf("     * If a snake is 1 tile away from a player, then they are in the danger zone and can be killed\n");
@@ -157,35 +158,37 @@ void toolTips()
     printf("     Game Mechanics\n");
     printf("     --------------\n");
     printf("     * The aim of the game is to find the treasure\n");
-    printf("     * If either player goes onto the $, you win\n\n");
+    printf("     * If either player goes onto the 💰, you win\n\n");
 
     printf("     * You nor the snake can go through walls\n\n");
 
-    printf("     * There are 2 lanterns and 2 shields on the map\n");
-    printf("     * The lantern enhances your sight from seeing 2 tiles around you, to seeing 4 tiles around you\n");
-    printf("     * The lantern is a permanent buff until you die\n\n");
+    printf("     * There are 2 flashlights and 2 shields on the map\n");
+    printf("     * The flashlight enhances your sight from seeing 2 tiles around you, to seeing 4 tiles around you\n");
+    printf("     * The flashlight is a permanent buff until you die\n\n");
 
     printf("     * The shield gives you the ability to go through snakes without dying\n");
     printf("     * The shield is a one time buff and lasts 8 seconds, with the buff starting immediately on pick-up\n");
     printf("     * Once the 8 seconds are up, the shield breaks and your immunity goes away\n\n");
 
-    printf("     * There is 1 reboot van on the map, this van allows for dead players to come back\n");
-    printf("     * When a player dies, their number (either 1 or 2) turns into an X\n");
-    printf("     * If the dead player had a lantern, then they'll drop it and it'll reappear at where it spawned\n");
-    printf("     * If they picked up both lanterns, only the most recently picked up lantern will be placed back on the map\n");
-    printf("     * In order to revive a dead player, the other player must go to the tile with the X\n");
-    printf("     * Once on the tile, the reboot card will be picked up\n");
-    printf("     * Now find the reboot van and wait on the van's tile for 5 seconds\n");
-    printf("     * After 5 seconds, the dead player will be revived at the van\n");
+    printf("     * There is 1 ambulance on the map, this ambulance allows for dead players to come back\n");
+    printf("     * When a player dies, their number (either 1 or 2) turns into a heart\n");
+    printf("     * If the dead player had a flashlight, then they'll drop it and it'll reappear at where it spawned\n");
+    printf("     * If they picked up both flashlights, only the most recently picked up flashlight will be placed back on the map\n");
+    printf("     * In order to revive a dead player, the other player must go to the tile with the heart\n");
+    printf("     * Once on the tile, the heart will be picked up\n");
+    printf("     * Now find the ambulance and wait on its tile for 5 seconds\n");
+    printf("     * After 5 seconds, the dead player will be revived at the ambulance\n");
     printf("     * They may not be visually shown after 5 seconds but they will be there, so just move around\n");
     printf("     * Revived players always spawn with a sight of 2\n");
-    printf("     * Players can be revived infinitely and the van doesn't have a cooldown\n\n");
+    printf("     * Players can be revived infinitely and the ambulance doesn't have a cooldown\n\n");
 
     printf("     Visual Bugs\n");
     printf("     -----------\n");
     printf("     * You go invisible when you enter a tile where a player just died, and when a snake goes on you when you have a shield\n");
-    printf("     * The 'Player's reboot card has been collected' message will appear if the snake kills you while your on its tile and your shield runs out of time\n\n");
+    printf("     * The 'Player's heart has been collected' message can appear if the snake kills you while your on its tile\n\n");
 
+    printf("     Start Game\n");
+    printf("     ----------\n");
     printf("     Scroll up to see all the tool tips\n");
     printf("     Press 'e' to enter the labyrinth...\n");
 }
@@ -194,15 +197,15 @@ void printMap(Player players[], Snake snakes[])
 {
     system("tput cup 0 0");
 
-    // Process lantern collection for each player
+    // Process flashlight collection for each player
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if(players[i].yCoord >= 0 && players[i].yCoord < players[i].rows && players[i].xCoord >= 0 && players[i].xCoord < players[i].cols && players[i].mapData[players[i].yCoord][players[i].xCoord] == 2)
         {
-            // Set lantern coordinates and mark as collected
-            players[i].lanternXCoord = players[i].xCoord;
-            players[i].lanternYCoord = players[i].yCoord;
-            players[i].lanternCollected = 1;
+            // Set flashlight coordinates and mark as collected
+            players[i].flashlightXCoord = players[i].xCoord;
+            players[i].flashlightYCoord = players[i].yCoord;
+            players[i].flashlightCollected = 1;
         }
     }
 
@@ -220,7 +223,7 @@ void printMap(Player players[], Snake snakes[])
     if(players[0].dead == 0 && players[1].dead == 1)
     {
         // Player 1 is alive, Player 2 is dead
-        // Place the reboot card at Player 2's last position if not collected
+        // Place the heart at Player 2's last position if not collected
         if(players[0].cardCollected == 0)
         {
             players[1].mapData[players[1].yCoord][players[1].xCoord] = 6;
@@ -237,14 +240,14 @@ void printMap(Player players[], Snake snakes[])
             players[1].mapData[players[1].yCoord][players[1].xCoord] = 0; // Remove card from map
             players[1].sight = -1; // Update sight of the dead player
 
-            // Return lantern if Player 2 had it
-            if(players[1].lanternCollected == 1)
+            // Return flashlight if Player 2 had it
+            if(players[1].flashlightCollected == 1)
             {
-                if(players[1].lanternYCoord >= 0 && players[1].lanternYCoord < players[1].rows && players[1].lanternXCoord >= 0 && players[1].lanternXCoord < players[1].cols)
+                if(players[1].flashlightYCoord >= 0 && players[1].flashlightYCoord < players[1].rows && players[1].flashlightXCoord >= 0 && players[1].flashlightXCoord < players[1].cols)
                 {
-                    players[1].mapData[players[1].lanternYCoord][players[1].lanternXCoord] = 2;
+                    players[1].mapData[players[1].flashlightYCoord][players[1].flashlightXCoord] = 2;
                 }
-                players[1].lanternCollected = 0;
+                players[1].flashlightCollected = 0;
             }
 
             // Return shield if Player 2 had it
@@ -261,7 +264,7 @@ void printMap(Player players[], Snake snakes[])
     else if(players[0].dead == 1 && players[1].dead == 0)
     {
         // Player 2 is alive, Player 1 is dead
-        // Place the reboot card at Player 1's last position if not collected
+        // Place the heart at Player 1's last position if not collected
         if(players[1].cardCollected == 0)
         {
             players[0].mapData[players[0].yCoord][players[0].xCoord] = 6;
@@ -278,14 +281,14 @@ void printMap(Player players[], Snake snakes[])
             players[0].mapData[players[0].yCoord][players[0].xCoord] = 0;  // Remove card from map
             players[0].sight = -1;  // Update sight of the dead player
 
-            // Return lantern if Player 1 had it
-            if(players[0].lanternCollected == 1)
+            // Return flashlight if Player 1 had it
+            if(players[0].flashlightCollected == 1)
             {
-                if(players[0].lanternYCoord >= 0 && players[0].lanternYCoord < players[0].rows && players[0].lanternXCoord >= 0 && players[0].lanternXCoord < players[0].cols)
+                if(players[0].flashlightYCoord >= 0 && players[0].flashlightYCoord < players[0].rows && players[0].flashlightXCoord >= 0 && players[0].flashlightXCoord < players[0].cols)
                 {
-                    players[0].mapData[players[0].lanternYCoord][players[0].lanternXCoord] = 2;
+                    players[0].mapData[players[0].flashlightYCoord][players[0].flashlightXCoord] = 2;
                 }
-                players[0].lanternCollected = 0;
+                players[0].flashlightCollected = 0;
             }
 
             // Return shield if Player 1 had it
@@ -305,59 +308,64 @@ void printMap(Player players[], Snake snakes[])
     keyBinds();
 
     // Position coordinates below controls
-    printf("\033[9;60H");
+    printf("\033[11;60H");
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         printf("Player%d: [%d][%d]\n", i+1, players[i].xCoord, players[i].yCoord);
-        printf("\033[%d;60H", 10+i);  // Next line, same column
+        printf("\033[%d;60H", 12+i);  // Next line, same column
     }
 
-    printf("\033[11;60H");
+    printf("\033[14;60H");
     for(int i = 0; i < MAX_SNAKES; i++)
     {
         printf("Snake%d:  [%d][%d]\n", i+1, snakes[i].xCoord, snakes[i].yCoord);
-        printf("\033[%d;60H", 12+i);
+        printf("\033[%d;60H", 15+i);
     }
 
     // Time and messages at bottom
     time_t current_time;
     time(&current_time);
-    printf("\033[18;60H%s", ctime(&current_time));
+    printf("\033[21;60H%s", ctime(&current_time));
 
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if(players[i].hitWallFlag)
         {
-            printf("\033[19;60HOUCH, WHO PUT THIS WALL HERE?!\n");
+            printf("\033[22;60HOUCH, WHO PUT THIS WALL HERE?!\n");
             players[i].hitWallFlag = 0;
         }
     }
 
+    if(players[0].shieldCollected == 1 && players[0].shieldEndTime > time(NULL))
+    {
+        printf("\033[23;60HShield Time Remaining: %d seconds\n", (int)(players[0].shieldEndTime - time(NULL)));
+    }
+    if(players[1].shieldCollected == 1 && players[1].shieldEndTime > time(NULL))
+    {
+        printf("\033[24;60HShield Time Remaining: %d seconds\n", (int)(players[1].shieldEndTime - time(NULL)));
+    }
+
     if(players[0].cardCollected == 1)
     {
-        printf("\033[18;60HPlayer 1's reboot card has been collected!\n");
+        printf("\033[25;60HPlayer 2's heart has been collected!\n");
     }
     if(players[1].cardCollected == 1)
     {
-        printf("\033[18;60HPlayer 2's reboot card has been collected!\n");
+        printf("\033[25;60HPlayer 1's heart has been collected!\n");
     }
 }
 
 void keyBinds()
 {
-    // Move cursor to right side for controls
-    printf("\033[2;60H");  // Move to line 2, column 40
-    printf("Press 'w | i' to move up");
-    printf("\033[3;60H");
-    printf("Press 'a | j' to move left");
-    printf("\033[4;60H");
-    printf("Press 's | k' to move down");
-    printf("\033[5;60H");
-    printf("Press 'd | l' to move right");
-    printf("\033[6;60H");
-    printf("Press 'q | u' to undo");
-    printf("\033[7;60H");
-    printf("Press 'e' to exit\n");
+    // Move to line 2, column 40 | Moves cursor to the right side for controls
+    printf("\033[2;60HPlayer 1 Controls:               Player 2 Controls:\n");
+    printf("\033[3;60H-----------------------          -----------------------\n");
+    printf("\033[4;60HPress 'w' to move up             Press 'i' to move up\n");
+    printf("\033[5;60HPress 'a' to move left           Press 'j' to move left\n");
+    printf("\033[6;60HPress 's' to move down           Press 'k' to move down\n");
+    printf("\033[7;60HPress 'd' to move right          Press 'l' to move right\n");
+    printf("\033[8;60HPress 'q' to undo                Press 'u' to undo\n\n");
+    printf("\033[9;60HPress 'e' to exit                Press 'e' to exit\n");
 }
 
 int winCondition(Player players[], Snake snakes[])
@@ -369,7 +377,7 @@ int winCondition(Player players[], Snake snakes[])
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 5)
         {
-            printf("\033[19;60HPlayer %d found the treasure!\n", i + 1);
+            printf("\033[22;60HPlayer %d found the treasure!\n", i + 1);
             fflush(stdout);
             sleep(1);
             return 1;
@@ -392,7 +400,7 @@ int winCondition(Player players[], Snake snakes[])
                 {
                     players[i].dead = 1;
                     playersAlive--;
-                    printf("\033[19;60HPlayer %d was bitten!\n", i + 1);
+                    printf("\033[22;60HPlayer %d was bitten!\n", i + 1);
 
                     if((!players[0].dead && players[1].dead))
                     {
@@ -407,7 +415,7 @@ int winCondition(Player players[], Snake snakes[])
 
                 if(players[i].yCoord == snakes[j].yCoord && players[i].xCoord == snakes[j].xCoord && players[i].shieldCollected == 1)
                 {
-                    printf("\033[19;60HPlayer %d deflected a vile snake!\n", i + 1);
+                    printf("\033[22;60HPlayer %d deflected a vile snake!\n", i + 1);
                     break; // This entire section is needed to display the printf message
                 }
             }
@@ -416,7 +424,7 @@ int winCondition(Player players[], Snake snakes[])
 
     if(playersAlive <= 0)
     {
-        printf("\033[19;60HAll players have been bitten!\n");
+        printf("\033[22;60HAll players have been bitten!\n");
         return 1;
     }
 
