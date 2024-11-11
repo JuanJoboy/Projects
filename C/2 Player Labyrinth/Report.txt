@@ -55,5 +55,7 @@ The - is where it was initially, before I moved it to the 8
 
 -- Maybe add a ifdef for 2 player or 1 player gamemode
 -- Maybe add random generation of van, swords, lantern and treasure
+-- Make snake go in a specific direction until they hit a barrier then randomize direction, or 5 seconds pass then randomize direction
+-- Add sword and allow players to kill each other, whichever player gets the treasure, wins
 
 -- Turn this game into a website, then into a 3d game using some game engine. Call it 

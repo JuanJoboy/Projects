@@ -34,7 +34,7 @@ void *snakeThread(void *arg)
         }
         
         pthread_mutex_unlock(&snakeMoveMutex);
-        usleep(500000); // Sleep for 0.5 seconds
+        usleep(1000000); // Sleep for 1 second
     }
 
     return NULL;
@@ -150,7 +150,7 @@ void toolTips()
     printf("     * '🚑 ' represents the ambulance\n");
     printf("     * '🐍 ' represents the snake\n\n");
 
-    printf("     * There are 4 snakes around the map that move every 0.5 seconds \n");
+    printf("     * There are 5 snakes around the map that move every 0.5 seconds \n");
     printf("     * If a snake is 1 tile away from a player, then they are in the danger zone and can be killed\n");
     printf("     * Snakes can't go through anything on the map other than the players and walkable areas\n");
     printf("     * If the snake kills both players, you lose\n\n");

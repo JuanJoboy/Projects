@@ -4,6 +4,7 @@ VALGRIND_FLAGS = --leak-check=full -s --show-leak-kinds=all --track-origins=yes
 OBJ = main.o terminal.o random.o newSleep.o mapReader.o gameHandler.o playerMovement.o snakeMovement.o linkedList.o
 EXEC = labyrinth
 HARDCORE = hardcore.txt
+TUTORIAL = tutorial.txt
 EXPERT = expert.txt
 
 ifdef DARK
@@ -58,6 +59,15 @@ runExpert : clean $(EXEC)
 runDarkExpert: clean
 	$(MAKE) DARK=1
 	./$(EXEC) $(EXPERT)
+
+# make runTutorial
+runTutorial : clean $(EXEC)
+	./$(EXEC) $(TUTORIAL)
+
+# make runDarkTutorial
+runDarkTutorial: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(TUTORIAL)
 
 # make valgrind
 valgrind: $(EXEC) $(HARDCORE)

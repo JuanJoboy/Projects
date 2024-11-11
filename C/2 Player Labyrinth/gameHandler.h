@@ -4,7 +4,7 @@
 #include <time.h>
 
 #define MAX_PLAYERS 2
-#define MAX_SNAKES 6
+#define MAX_SNAKES 5
 
 typedef struct
 {

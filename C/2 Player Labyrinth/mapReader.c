@@ -243,7 +243,7 @@ void ambulanceFinder(int **data, int rows, int cols, int *ambulanceXCoord, int *
 
 void snakeFinder(int **data, int rows, int cols, int *xCoord, int *yCoord)
 {
-    static int foundSnakes[MAX_SNAKES][2] = {{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}}; // Array to store found snake positions because all other implementations weren't properly tracking every snake. Static is used to keep the array values between function calls. Otherwise, the snake would keep getting overwritten.
+    static int foundSnakes[MAX_SNAKES][2] = {{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}}; // Array to store found snake positions because all other implementations weren't properly tracking every snake. Static is used to keep the array values between function calls. Otherwise, the snake would keep getting overwritten.
     static int currentSnake = 0;
     
     for(int i = 0; i < rows; i++)
