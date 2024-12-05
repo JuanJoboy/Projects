@@ -8,7 +8,8 @@
 
 void snakeCoords(Snake snakes[], Player players[], linkedList *snakeList[])
 {
-    for(int i = 0; i < MAX_SNAKES; i++) {
+    for(int i = 0; i < MAX_SNAKES; i++)
+    {
         // Store previous position
         snakes[i].prevX = snakes[i].xCoord;
         snakes[i].prevY = snakes[i].yCoord;

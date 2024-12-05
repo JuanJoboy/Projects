@@ -100,11 +100,11 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
             {
                 if(players[0].xCoord == snakes[j].xCoord && players[0].yCoord == snakes[j].yCoord)
                 {
-                    players[0].mapData[snakes[i].yCoord][snakes[i].xCoord] = 3;
+                    players[0].mapData[snakes[j].yCoord][snakes[j].xCoord] = 3;
                 }
                 if(players[1].xCoord == snakes[j].xCoord && players[1].yCoord == snakes[j].yCoord)
                 {
-                    players[1].mapData[snakes[i].yCoord][snakes[i].xCoord] = 7;
+                    players[1].mapData[snakes[j].yCoord][snakes[j].xCoord] = 7;
                 }
             }
         }
@@ -193,14 +193,12 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
     }
 
     // Update player positions on map
-    if(players[0].xCoord >= 0 && players[0].xCoord < players[0].cols && 
-    players[0].yCoord >= 0 && players[0].yCoord < players[0].rows && !players[0].dead)
+    if(players[0].xCoord >= 0 && players[0].xCoord < players[0].cols && players[0].yCoord >= 0 && players[0].yCoord < players[0].rows && !players[0].dead)
     {
         players[0].mapData[players[0].yCoord][players[0].xCoord] = 3;
     }
 
-    if(players[1].xCoord >= 0 && players[1].xCoord < players[1].cols && 
-    players[1].yCoord >= 0 && players[1].yCoord < players[1].rows && !players[1].dead)
+    if(players[1].xCoord >= 0 && players[1].xCoord < players[1].cols && players[1].yCoord >= 0 && players[1].yCoord < players[1].rows && !players[1].dead)
     {
         players[1].mapData[players[1].yCoord][players[1].xCoord] = 7;
     }
