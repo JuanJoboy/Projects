@@ -6,6 +6,7 @@ EXEC = labyrinth
 HARDCORE = hardcore.txt
 TUTORIAL = tutorial.txt
 EXPERT = expert.txt
+MAS = mas.txt
 
 ifdef DARK
 CFLAGS += -D DARK
@@ -68,6 +69,10 @@ runTutorial : clean $(EXEC)
 runDarkTutorial: clean
 	$(MAKE) DARK=1
 	./$(EXEC) $(TUTORIAL)
+
+runMas: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(MAS)
 
 # make valgrind
 valgrind: $(EXEC) $(HARDCORE)
