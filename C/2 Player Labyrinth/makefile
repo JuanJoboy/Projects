@@ -7,6 +7,7 @@ HARDCORE = hardcore.txt
 TUTORIAL = tutorial.txt
 EXPERT = expert.txt
 MAS = mas.txt
+ALIZA = aliza.txt
 
 ifdef DARK
 CFLAGS += -D DARK
@@ -70,9 +71,19 @@ runDarkTutorial: clean
 	$(MAKE) DARK=1
 	./$(EXEC) $(TUTORIAL)
 
-runMas: clean
+runDarkMas: clean
 	$(MAKE) DARK=1
 	./$(EXEC) $(MAS)
+
+runMas : clean $(EXEC)
+	./$(EXEC) $(MAS)
+
+runDarkAliza: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(ALIZA)
+
+runAliza : clean $(EXEC)
+	./$(EXEC) $(ALIZA)
 
 # make valgrind
 valgrind: $(EXEC) $(HARDCORE)
