@@ -8,6 +8,9 @@ TUTORIAL = tutorial.txt
 EXPERT = expert.txt
 MAS = mas.txt
 ALIZA = aliza.txt
+COOL = cool.txt
+IMPOSSIBLE = impossible.txt
+MAZE = maze.txt
 
 ifdef DARK
 CFLAGS += -D DARK
@@ -84,6 +87,27 @@ runDarkAliza: clean
 
 runAliza : clean $(EXEC)
 	./$(EXEC) $(ALIZA)
+
+runDarkCool: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(COOL)
+
+runCool : clean $(EXEC)
+	./$(EXEC) $(COOL)
+	
+runDarkImpossible: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(IMPOSSIBLE)
+
+runImpossible : clean $(EXEC)
+	./$(EXEC) $(IMPOSSIBLE)
+
+runDarkMaze: clean
+	$(MAKE) DARK=1
+	./$(EXEC) $(MAZE)
+
+runMaze : clean $(EXEC)
+	./$(EXEC) $(MAZE)
 
 # make valgrind
 valgrind: $(EXEC) $(HARDCORE)
