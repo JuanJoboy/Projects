@@ -250,11 +250,10 @@ void movement1(Player *state, char keyBind, linkedList *list)
                     properMovement = 1;
                 }
                 break;
-            case 'c':
-                if(((state->yCoord) < (state->rows - 1)) && ((state->xCoord) < (state->cols - 1)))
+            case 's':
+                if(((state->yCoord) < (state->rows - 1)))
                 {
                     state->yCoord++;
-                    state->xCoord++;
                     properMovement = 1;
                 }
                 break;
