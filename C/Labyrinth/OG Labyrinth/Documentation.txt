@@ -172,4 +172,11 @@ Step 8: Open The Folder
 16. Click on the bin icon at the top right of the terminal
 17. Now re-do Step-13
 18. Refer to Part-6 to run the game
+
+11. Bugs
+------------
+A. Visual
+    * You go invisible when you enter a tile where a player just died.
+    * You go invisible when a snake goes on you when you have a shield.
+    * 'Player's heart has been collected' message can appear if the snake kills you while your on its tile.
 ===================================

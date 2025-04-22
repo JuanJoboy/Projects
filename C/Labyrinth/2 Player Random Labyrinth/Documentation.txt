@@ -65,6 +65,7 @@ A. Map Generation
      - 1 ambulance
      - Walls (50% chance per empty tile)
    * Map size: 8x8 to 40x40
+   * Best played with a map of size 20x20
 
 B. Core Mechanics
    * Movement:
@@ -234,4 +235,16 @@ Dark Mode:
 
 Debug Mode (with Valgrind):
   make valgrind
+  
+11. Bugs
+------------
+A. Visual
+    * You go invisible when you enter a tile where a player just died.
+    * You go invisible when a snake goes on you when you have a shield.
+    * 'Player's heart has been collected' message can appear if the snake kills you while your on its tile.
+
+B. Gameplay
+    * Since the map is randomly generated, it is susceptible to creating unplayable maps.
+    * Players may not be generated onto the map.
+    * If either of these occur, reload the game.
 ===================================

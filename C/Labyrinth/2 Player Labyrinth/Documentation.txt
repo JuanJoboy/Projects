@@ -246,4 +246,11 @@ Dark Mode:
 
 Debug Mode (with Valgrind):
   make valgrind
+
+12. Bugs
+------------
+A. Visual
+    * You go invisible when you enter a tile where a player just died.
+    * You go invisible when a snake goes on you when you have a shield.
+    * 'Player's heart has been collected' message can appear if the snake kills you while your on its tile.
 ===================================
