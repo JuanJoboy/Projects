@@ -1,0 +1,175 @@
+OG LABYRINTH DOCUMENTATION
+===========================
+
+1. Game Overview
+---------------
+A terminal-based maze game where the player must find treasure while avoiding snakes. The game features:
+- Command-line interface
+- Single player mode
+- Snake enemy with movement tied to the player
+- Dark mode option
+- Undo movement functionality
+
+2. Game Elements
+---------------
+Player (P): The main character controlled by the player
+Snake (~): Enemy that moves randomly and can kill the player
+Treasure ($): The goal - collecting it wins the game
+Walls (O): Obstacles that block movement
+Lantern (@): Increases vision range in dark mode
+Empty Space ( ): Traversable areas
+
+3. Controls
+----------
+w: Move up
+a: Move left
+s: Move down
+d: Move right
+u: Undo last move
+e: Exit game
+
+4. Game Modes
+------------
+Standard Mode: Full visibility of the maze
+Dark Mode: Limited vision range (3 tiles, extends to 6 with lantern)
+
+5. Gameplay Mechanics
+-------------------
+- Player and snake cannot move through walls
+- Snake moves after each player movement
+- Snake kills player on contact
+- Finding the treasure wins the game
+- Movement can be undone with 'u' key
+- Game ends when player either:
+  * Collects the treasure (Win)
+  * Gets caught by snake (Lose)
+
+6. How To Run
+----------------------
+Standard Mode:
+  make run
+
+Dark Mode:
+  make runDark
+
+Debug Mode (with Valgrind):
+  make valgrind
+
+7. Map File Format
+----------------
+For reference, look at either hardcore.txt or map.txt in this folder
+First line: <rows> <cols>
+Subsequent lines:
+  0: Empty space
+  1: Wall
+  2: Lantern
+  3: Player
+  4: Snake
+  5: Treasure
+
+9. Technical Requirements
+-----------------------
+- Linux/Unix terminal
+- GCC compiler
+- Make utility
+
+10. Step By Step Installation Guide
+-----------------------------------
+Step 1: Install Visual Studio Code (VS Code)
+
+  1.  Open a web browser (like Chrome, Firefox, or Edge).
+  2.  Go to the official VS Code website: https://code.visualstudio.com/
+  3.  Click the "Download for Windows" button.
+  4.  Once the download is complete, open the downloaded `.exe` file to run the installer.
+  5.  Follow the on-screen instructions to install VS Code. Make sure to check the box that says "Add to PATH" during the installation process. This will allow you to open VS Code from the command line later.
+  6.  Click "Finish" once the installation is complete. VS Code will likely open automatically.
+
+Step 2: Install the Windows Subsystem for Linux (WSL)
+
+1. Open PowerShell as Administrator:
+    * Click the Start button (Windows logo in the bottom-left corner).
+    * Type "PowerShell".
+    * Right-click on "Windows PowerShell" and select "Run as administrator". Click "Yes" if prompted.
+
+2. Enable the WSL feature:
+    * In the Administrator PowerShell window, type the following command and press Enter:
+        ```
+        wsl --install
+        ```
+    * This command will enable the necessary WSL features and install the default Ubuntu distribution.
+
+3. Restart Your Computer
+    * Once the installation is complete, you will be prompted to restart your computer. **Make sure to restart your computer.
+
+Step 3: Complete the Ubuntu Installation
+
+1.  After restarting, the Ubuntu terminal should automatically open. If it doesn't, you can open it by:
+    * Clicking the Start button.
+    * Typing "Ubuntu" and selecting the "Ubuntu" app.
+
+2. Create a User Account and Password:
+    * The first time you run Ubuntu, it will prompt you to create a new user account and password for your Ubuntu environment.
+    * Choose a username and a strong, memorable password.
+    * You will need to enter the password when prompted in the terminal (it won't show any characters as you type, this is normal).
+
+Step 4: Update and Upgrade Ubuntu Packages
+
+1.  Once you have created your user account and are in the Ubuntu terminal, it's important to update the package lists and upgrade the installed packages to their latest versions.
+
+2. Run the following commands one by one, pressing Enter after each:
+    sudo apt update
+    sudo apt upgrade
+
+    * You will be prompted for your Ubuntu user password.
+    * Enter it and press Enter.
+    * If prompted to confirm the upgrade (usually by asking "Do you want to continue? [Y/n]"), type `y` and press Enter.
+
+Step 5: Install GCC (GNU Compiler Collection)
+
+1.  To compile your C program, you need to install GCC.
+    
+    * In the Ubuntu terminal, run the following command and press Enter:
+    sudo apt install build-essential
+
+    * This command installs GCC, G++, make, and other essential tools for building software.
+    * If prompted to confirm the installation, type `y` and press Enter.
+
+Step 6: Install the Remote - SSH Extension in VS Code
+
+1.  Open VS Code.
+2.  Click on the Extensions icon in the Activity Bar on the left side (it looks like four squares forming one larger square).
+3.  In the search bar, type "Remote - SSH".
+4.  Find the extension published by Microsoft and click the "Install" button.
+5.  Once installed, you might see a notification to reload VS Code. Click "Reload".
+
+Step 7: Connect VS Code to Your WSL Ubuntu Environment
+
+1.  Click on the "Remote Explorer" icon in the Activity Bar on the left side (it looks like a computer monitor with an arrow pointing into it).
+  
+  * If you don't see it, you can also access it by pressing `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) and typing "Remote-SSH: Connect to Host...".
+
+2.  In the dropdown menu that appears, select "WSL: Ubuntu".
+
+3.  VS Code will open a new window, connecting to your WSL Ubuntu environment. You might see a prompt asking for your password again the first time you connect in a new window.
+
+Step 8: Open The Folder
+
+1. Open your file explorer and scroll down on the left till you see Linux at the bottom
+2. Open it
+3. Open Ubuntu
+4. Open the 'home' folder
+5. Open the folder with your name
+6. Drag the zip file that you downloaded from my github into this area
+7. Unzip the zip file
+8. Right-Click on any one of the files
+9. Click on 'Open' that has the VSCode symbol next to it
+10. If it asks for permission regarding wsl-local-host, click on allow
+11. At the top left of vscode, click on Explorer
+12. Click on 'Open Folder' and open the folder you have unzipped
+13. Open explorer and right click on any file and click 'Open in Integrated Terminal'
+14. This will open the terminal, in here, look at the top right of it and locate a plus sign next to an arrow facing down.
+15. Click on that arrow and click on "Select Default Profile" and click on 'bash'
+16. Click on the bin icon at the top right of the terminal
+17. Now re-do Step-13
+18. Refer to Part-6 to run the game
+===================================
