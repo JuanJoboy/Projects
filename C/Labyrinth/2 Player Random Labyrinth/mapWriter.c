@@ -9,6 +9,8 @@
 int minInput = 8;
 int maxInputHeight = 40;
 int maxInputWidth = 57;
+int rows;
+int cols;
 
 char* mapName()
 {
@@ -34,7 +36,6 @@ char* mapName()
 
 int rowDim()
 {
-    int rows;
     int valid;
 
     do
@@ -64,7 +65,6 @@ int rowDim()
 
 int colDim()
 {
-    int cols;
     int valid;
 
     do
@@ -163,8 +163,8 @@ void writeMap(char* filename)
         }
     }
 
-    // Place 2 flashlights
-    while(flashlightCounter < 2)
+    // Place 4 flashlights
+    while(flashlightCounter < 4)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -177,7 +177,7 @@ void writeMap(char* filename)
     }
 
     // Place 1 ambulance
-    while(ambulanceCounter < 2)
+    while(ambulanceCounter < 1)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -189,8 +189,8 @@ void writeMap(char* filename)
         }
     }
 
-    // Place 2 shield
-    while(shieldCounter < 2)
+    // Place 4 shields
+    while(shieldCounter < 4)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -202,7 +202,7 @@ void writeMap(char* filename)
         }
     }
 
-    // Place 1 card
+    // Place 3 cards
     while(cardCounter < 3)
     {
         int i = randomUCP(0, rows-1);
