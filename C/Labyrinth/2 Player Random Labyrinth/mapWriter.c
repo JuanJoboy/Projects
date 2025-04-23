@@ -6,8 +6,9 @@
 #include "gameHandler.h"
 #include"random.h"
 
-int minInput = 7;
-int maxInput = 41;
+int minInput = 8;
+int maxInputHeight = 40;
+int maxInputWidth = 57;
 
 char* mapName()
 {
@@ -38,7 +39,7 @@ int rowDim()
 
     do
     {
-        printf("Enter the number of rows (8 - 40): ");
+        printf("Enter the number of rows (%d - %d): ", minInput, maxInputHeight);
         valid = scanf("%d", &rows);
         
         if(valid != 1)
@@ -47,16 +48,16 @@ int rowDim()
             printf("Error: Please enter a valid number\n");
         }
         
-        if(rows <= minInput && valid == 1)
+        if(rows < minInput && valid == 1)
         {
             printf("Invalid input. Please enter a number above %d\n", minInput);
         }
-        if(rows >= maxInput && valid == 1)
+        if(rows > maxInputHeight && valid == 1)
         {
-            printf("Invalid input. Please enter a number below %d\n", maxInput);
+            printf("Invalid input. Please enter a number below %d\n", maxInputHeight);
         }
     }
-    while(valid != 1 || rows <= minInput || rows >= maxInput);
+    while(valid != 1 || rows < minInput || rows > maxInputHeight);
 
     return rows;
 }
@@ -68,7 +69,7 @@ int colDim()
 
     do
     {
-        printf("Enter the number of columns (8 - 40): ");
+        printf("Enter the number of columns (%d - %d): ", minInput, maxInputWidth);
         valid = scanf("%d", &cols);
         
         if(valid != 1)
@@ -77,16 +78,16 @@ int colDim()
             printf("Error: Please enter a valid number\n");
         }
         
-        if(cols <= minInput && valid == 1)
+        if(cols < minInput && valid == 1)
         {
             printf("Invalid input. Please enter a number above %d\n", minInput);
         }
-        if(cols >= maxInput && valid == 1)
+        if(cols > maxInputWidth && valid == 1)
         {
-            printf("Invalid input. Please enter a number below %d\n", maxInput);
+            printf("Invalid input. Please enter a number below %d\n", maxInputWidth);
         }
     }
-    while(valid != 1 || cols <= minInput || cols >= maxInput);
+    while(valid != 1 || cols < minInput || cols > maxInputWidth);
 
     return cols;
 }
@@ -176,7 +177,7 @@ void writeMap(char* filename)
     }
 
     // Place 1 ambulance
-    while(ambulanceCounter < 1)
+    while(ambulanceCounter < 2)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -202,7 +203,7 @@ void writeMap(char* filename)
     }
 
     // Place 1 card
-    while(cardCounter < 1)
+    while(cardCounter < 3)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -237,7 +238,7 @@ void writeMap(char* filename)
                     }
                 }
 
-                // /* Check if the current cell is surrounded by walls */ PS: Doesnt really do too much
+                // /* Check if the current cell is surrounded by walls */
                 // if(isOverWalled(data, i, j, rows, cols))
                 // {
                 //     val = 0; // ensure a path

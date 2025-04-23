@@ -1,6 +1,5 @@
 CC = gcc
 CFLAGS = -Wall -pedantic -g -Werror -pthread
-LIBS = -lncurses
 VALGRIND_FLAGS = --leak-check=full -s --show-leak-kinds=all --track-origins=yes
 OBJ = main.o terminal.o random.o newSleep.o mapReader.o gameHandler.o playerMovement.o snakeMovement.o linkedList.o mapWriter.o
 EXEC = labyrinth

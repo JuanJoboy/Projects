@@ -64,7 +64,7 @@ A. Map Generation
      - 2 shields
      - 1 ambulance
      - Walls (50% chance per empty tile)
-   * Map size: 8x8 to 40x40
+   * Map size: 8x8 to 40x57
    * Best played with a map of size 20x20
 
 B. Core Mechanics

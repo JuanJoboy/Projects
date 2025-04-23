@@ -308,64 +308,64 @@ void printMap(Player players[], Snake snakes[])
     keyBinds();
 
     // Position coordinates below controls
-    printf("\033[11;60H");
+    printf("\033[11;120H");
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         printf("Player%d: [%d][%d]\n", i+1, players[i].xCoord, players[i].yCoord);
-        printf("\033[%d;60H", 12+i);  // Next line, same column
+        printf("\033[%d;120H", 12+i);  // Next line, same column
     }
 
-    printf("\033[14;60H");
+    printf("\033[14;120H");
     for(int i = 0; i < MAX_SNAKES; i++)
     {
         printf("Snake%d:  [%d][%d]\n", i+1, snakes[i].xCoord, snakes[i].yCoord);
-        printf("\033[%d;60H", 15+i);
+        printf("\033[%d;120H", 15+i);
     }
 
     // Time and messages at bottom
     time_t current_time;
     time(&current_time);
-    printf("\033[21;60H%s", ctime(&current_time));
+    printf("\033[21;120H%s", ctime(&current_time));
 
     for(int i = 0; i < MAX_PLAYERS; i++)
     {
         if(players[i].hitWallFlag)
         {
-            printf("\033[22;60HOUCH, WHO PUT THIS WALL HERE?!\n");
+            printf("\033[22;120HOUCH, WHO PUT THIS WALL HERE?!\n");
             players[i].hitWallFlag = 0;
         }
     }
 
     if(players[0].shieldCollected == 1 && players[0].shieldEndTime > time(NULL))
     {
-        printf("\033[23;60HShield Time Remaining: %d seconds\n", (int)(players[0].shieldEndTime - time(NULL)));
+        printf("\033[23;120HShield Time Remaining: %d seconds\n", (int)(players[0].shieldEndTime - time(NULL)));
     }
     if(players[1].shieldCollected == 1 && players[1].shieldEndTime > time(NULL))
     {
-        printf("\033[24;60HShield Time Remaining: %d seconds\n", (int)(players[1].shieldEndTime - time(NULL)));
+        printf("\033[24;120HShield Time Remaining: %d seconds\n", (int)(players[1].shieldEndTime - time(NULL)));
     }
 
     if(players[0].cardCollected == 1)
     {
-        printf("\033[25;60HPlayer 2's heart has been collected!\n");
+        printf("\033[25;120HPlayer 2's heart has been collected!\n");
     }
     if(players[1].cardCollected == 1)
     {
-        printf("\033[25;60HPlayer 1's heart has been collected!\n");
+        printf("\033[25;120HPlayer 1's heart has been collected!\n");
     }
 }
 
 void keyBinds()
 {
     // Move to line 2, column 40 | Moves cursor to the right side for controls
-    printf("\033[2;60HPlayer 1 Controls:               Player 2 Controls:\n");
-    printf("\033[3;60H-----------------------          -----------------------\n");
-    printf("\033[4;60HPress 'w' to move up             Press 'i' to move up\n");
-    printf("\033[5;60HPress 'a' to move left           Press 'j' to move left\n");
-    printf("\033[6;60HPress 's' to move down           Press 'k' to move down\n");
-    printf("\033[7;60HPress 'd' to move right          Press 'l' to move right\n");
-    printf("\033[8;60HPress 'q' to undo                Press 'u' to undo\n\n");
-    printf("\033[9;60HPress 'e' to exit                Press 'e' to exit\n");
+    printf("\033[2;120HPlayer 1 Controls:               Player 2 Controls:\n");
+    printf("\033[3;120H-----------------------          -----------------------\n");
+    printf("\033[4;120HPress 'w' to move up             Press 'i' to move up\n");
+    printf("\033[5;120HPress 'a' to move left           Press 'j' to move left\n");
+    printf("\033[6;120HPress 's' to move down           Press 'k' to move down\n");
+    printf("\033[7;120HPress 'd' to move right          Press 'l' to move right\n");
+    printf("\033[8;120HPress 'q' to undo                Press 'u' to undo\n\n");
+    printf("\033[9;120HPress 'e' to exit                Press 'e' to exit\n");
 }
 
 int winCondition(Player players[], Snake snakes[])
@@ -377,7 +377,7 @@ int winCondition(Player players[], Snake snakes[])
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 5)
         {
-            printf("\033[22;60HPlayer %d found the treasure!\n", i + 1);
+            printf("\033[22;120HPlayer %d found the treasure!\n", i + 1);
             fflush(stdout);
             sleep(1);
             return 1;
@@ -400,7 +400,7 @@ int winCondition(Player players[], Snake snakes[])
                 {
                     players[i].dead = 1;
                     playersAlive--;
-                    printf("\033[22;60HPlayer %d was bitten!\n", i + 1);
+                    printf("\033[22;120HPlayer %d was bitten!\n", i + 1);
 
                     if((!players[0].dead && players[1].dead))
                     {
@@ -415,7 +415,7 @@ int winCondition(Player players[], Snake snakes[])
 
                 if(players[i].yCoord == snakes[j].yCoord && players[i].xCoord == snakes[j].xCoord && players[i].shieldCollected == 1)
                 {
-                    printf("\033[22;60HPlayer %d deflected a vile snake!\n", i + 1);
+                    printf("\033[22;120HPlayer %d deflected a vile snake!\n", i + 1);
                     break; // This entire section is needed to display the printf message
                 }
             }
@@ -424,7 +424,7 @@ int winCondition(Player players[], Snake snakes[])
 
     if(playersAlive <= 0)
     {
-        printf("\033[22;60HAll players have been bitten!\n");
+        printf("\033[22;120HAll players have been bitten!\n");
         return 1;
     }
 
