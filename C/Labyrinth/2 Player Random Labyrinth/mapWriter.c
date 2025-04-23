@@ -163,8 +163,8 @@ void writeMap(char* filename)
         }
     }
 
-    // Place 4 flashlights
-    while(flashlightCounter < 4)
+    // Place 5 flashlights
+    while(flashlightCounter < 5)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);

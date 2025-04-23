@@ -76,7 +76,14 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
             players[i].flashlightXCoord = players[i].xCoord; /* I need to store the coords of the flashlight so that when I undo, I can make it reappear again at the same spot, because if I just try to set the coords == 2, it won't work since 2 doesn't exist on the map anymore, it needs to be the specific spot where the flashlight was */
             players[i].flashlightYCoord = players[i].yCoord;
             #ifdef DARK
-                players[i].sight = 4;
+                if(players[i].flashlightCollected == 1 && players[i].flashlightXCoord == players[i].xCoord && players[i].flashlightYCoord == players[i].yCoord)
+                {
+                    players[i].sight = players[i].sight * 1.5;
+                }
+                else
+                {
+                    players[i].sight = 4; /* This is the sight range of the flashlight */
+                }
             #endif
         }
     }
@@ -85,11 +92,21 @@ int playerCoords(Player players[], Snake snakes[], char keyBind, linkedList *pla
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 9)
         {
+            int currentTime = time(NULL);
             players[i].shieldCollected = 1;
             players[i].shieldXCoord = players[i].xCoord;
             players[i].shieldYCoord = players[i].yCoord;
-            players[i].shieldStartTime = time(NULL);
-            players[i].shieldEndTime = players[i].shieldStartTime + 8;
+            players[i].shieldStartTime = currentTime;
+
+            if(players[i].shieldEndTime < currentTime)
+            {
+                players[i].shieldStartTime = currentTime;
+                players[i].shieldEndTime = currentTime + 8; 
+            }
+            else
+            {
+                players[i].shieldEndTime = players[i].shieldEndTime + 8;
+            }
         }
 
         // If player has shield and it's still active

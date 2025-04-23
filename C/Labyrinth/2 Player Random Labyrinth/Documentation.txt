@@ -65,7 +65,7 @@ A. Map Generation
      - 1 ambulance
      - Walls (50% chance per empty tile)
    * Map size: 8x8 to 40x57
-   * Best played with a map of size 20x20
+   * Best played with a map of size 30x30
 
 B. Core Mechanics
    * Movement:
@@ -83,13 +83,14 @@ B. Core Mechanics
 C. Power-ups
    * Flashlight:
      - Permanent vision upgrade
-     - Increases sight from 2 to 4 tiles
-     - Dropped on death
+     - Increases sight by 1.5x everytime a flashlight is picked up
+     - One dropped on death, no matter how many are picked up
    
    * Shield:
      - 8 seconds of snake immunity
      - One-time use
      - Timer shown on screen
+     - Can be stacked
 
 D. Revival System
    1. Dead player drops heart
@@ -235,6 +236,17 @@ Dark Mode:
 
 Debug Mode (with Valgrind):
   make valgrind
+
+When you enter one of the above commands, you'll be presented with an option to create a name for the file you're writing to. This name does not matter and is purely so that a random map can be created. You do not need to worry about adding any extensions like "txt", just simply write the name and press enter.
+
+    * For example "asd" would be a valid name
+    * Do note that if you were to write "asd" the next time you play, that file will be overwritten and the previous map will be lost
+
+Then enter how long you want the map to be, and how wide you want it to be
+
+    * The minimum size is 8*8
+    * The maximum size is 40*57
+    * The recommened size is 30*30
   
 11. Bugs
 ------------
