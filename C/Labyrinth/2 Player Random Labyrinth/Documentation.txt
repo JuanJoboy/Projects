@@ -194,6 +194,7 @@ Step 6: Install the Remote - SSH Extension in VS Code
 3.  In the search bar, type "Remote - SSH".
 4.  Find the extension published by Microsoft and click the "Install" button.
 5.  Once installed, you might see a notification to reload VS Code. Click "Reload".
+6.  Also download "C/C++ Extension Pack" and "Makefile Tools".
 
 Step 7: Connect VS Code to Your WSL Ubuntu Environment
 
@@ -221,21 +222,24 @@ Step 8: Open The Folder
     12. Click on 'Open Folder' and open the folder you have unzipped
     13. Open explorer and right click on any file and click 'Open in Integrated Terminal'
     14. This will open the terminal, in here, look at the top right of it and locate a plus sign next to an arrow facing down.
-    15. Click on that arrow and click on "Select Default Profile" and click on 'bash'
+    15. Click on that arrow and click on "Select Default Profile" and click on 'bash'. If bash isn't an option, then click on Ubuntu-WSL
     16. Click on the bin icon at the top right of the terminal
     17. Now re-do Step-13
     18. Refer to Part-11 to run the game
 
-10. How To Run
+11. How To Run
 ----------------------
-Standard Mode:
-  make run
+1. Open the Explorer in the top left
+2. Right-click on any file and click on 'Open in Integrated Terminal', then type in one of the 3 commands below:
 
-Dark Mode:
-  make runDark
+    *Standard Mode:
+      make run
 
-Debug Mode (with Valgrind):
-  make valgrind
+    *Dark Mode:
+      make runDark
+
+    *Debug Mode (with Valgrind):
+      make valgrind
 
 When you enter one of the above commands, you'll be presented with an option to create a name for the file you're writing to. This name does not matter and is purely so that a random map can be created. You do not need to worry about adding any extensions like "txt", just simply write the name and press enter.
 
@@ -248,7 +252,7 @@ Then enter how long you want the map to be, and how wide you want it to be
     * The maximum size is 40*57
     * The recommened size is 30*30
   
-11. Bugs
+12. Bugs
 ------------
 A. Visual
     * You go invisible when you enter a tile where a player just died.
