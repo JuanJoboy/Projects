@@ -1,4 +1,4 @@
-2 PLAYER RANDOM LABYRINTH DOCUMENTATION
+2 PLAYER RANDOM LABYRINTH
 ===================================
 
 1. Game Overview
