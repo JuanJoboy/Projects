@@ -133,6 +133,13 @@ void toolTips()
     printf("     Press 'd' to move right          Press 'l' to move right\n");
     printf("     Press 'q' to undo                Press 'u' to undo\n\n");
 
+    printf("     Press '1' to move up-left        Press '7' to move up-left\n");
+    printf("     Press '2' to move down-right     Press '8' to move down-right\n");
+    printf("     Press '3' to move down-left      Press '9' to move down-left\n");
+    printf("     Press '4' to move up-right       Press '0' to move up-right\n");
+
+    printf("\n     Press 'e' to exit              Press 'e' to exit\n\n");
+
     printf("     Information\n");
     printf("     -----------\n");
     printf("     * There are 2 players on the map\n");
@@ -163,18 +170,19 @@ void toolTips()
 
     printf("     * You nor the snake can go through walls\n\n");
 
-    printf("     * There are 2 flashlights and 2 shields on the map\n");
-    printf("     * The flashlight enhances your sight from seeing 2 tiles around you, to seeing 4 tiles around you\n");
+    printf("     * There are 5 flashlights and 4 shields on the map\n");
+    printf("     * The flashlight enhances your sight from seeing 2 tiles around you, to increasing it by 1.5x for every flashlight picked up\n");
     printf("     * The flashlight is a permanent buff until you die\n\n");
 
     printf("     * The shield gives you the ability to go through snakes without dying\n");
     printf("     * The shield is a one time buff and lasts 8 seconds, with the buff starting immediately on pick-up\n");
     printf("     * Once the 8 seconds are up, the shield breaks and your immunity goes away\n\n");
+    printf("     * Shields can be stacked\n");
 
     printf("     * There is 1 ambulance on the map, this ambulance allows for dead players to come back\n");
     printf("     * When a player dies, their number (either 1 or 2) turns into a heart\n");
     printf("     * If the dead player had a flashlight, then they'll drop it and it'll reappear at where it spawned\n");
-    printf("     * If they picked up both flashlights, only the most recently picked up flashlight will be placed back on the map\n");
+    printf("     * If they picked up multiple flashlights, only the most recently picked up flashlight will be placed back on the map\n");
     printf("     * In order to revive a dead player, the other player must go to the tile with the heart\n");
     printf("     * Once on the tile, the heart will be picked up\n");
     printf("     * Now find the ambulance and wait on its tile for 5 seconds\n");
@@ -381,7 +389,7 @@ int winCondition(Player players[], Snake snakes[])
     {
         if(players[i].mapData[players[i].yCoord][players[i].xCoord] == 5)
         {
-            printf("\033[28;120HPlayer %d found the treasure!\n", i + 1);
+            printf("\033[30;120HPlayer %d found the treasure!\n", i + 1);
             fflush(stdout);
             sleep(1);
             return 1;

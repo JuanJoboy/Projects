@@ -34,6 +34,39 @@ char* mapName()
     return filename;
 }
 
+int tempOrPerm()
+{
+    int valid = 0;
+    int choice = 0;
+
+    do
+    {
+        printf("Do you want to create a temporary or permanent map?\n");
+        printf("\t(1) Temporary\n");
+        printf("\t(2) Permanent\n");
+        printf("Enter your choice: ");
+        valid = scanf("%d", &choice);
+        
+        if(valid != 1)
+        {
+            while(getchar() != '\n');
+            printf("Error: Please enter a valid number\n");
+        }
+        
+        if(choice < 1 && valid == 1)
+        {
+            printf("Invalid input. Please enter a number above 0\n");
+        }
+        if(choice > 2 && valid == 1)
+        {
+            printf("Invalid input. Please enter a number below 3\n");
+        }
+    }
+    while(valid != 1 || choice < 1 || choice > 2);
+
+    return choice;
+}
+
 int rowDim()
 {
     int valid;

@@ -2,6 +2,7 @@
 #define MAPWRITER_H
 
 char* mapName();
+int tempOrPerm();
 int rowDim();
 int colDim();
 void writeMap();

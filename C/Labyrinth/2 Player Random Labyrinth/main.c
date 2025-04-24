@@ -22,6 +22,7 @@ int main()
     
     char *filename = mapName(); // Get the filename from the user
     writeMap(filename); // Write the map to a file
+    int choice = tempOrPerm(); // Ask the user if they want a temporary or permanent map
 
     /* Open the file and read the first line to see how big the rows and columns are */
     if(openMap(filename, &file, &rows, &cols) == FALSE)
@@ -58,6 +59,16 @@ int main()
     if(file != NULL)
     {
         fclose(file);
+    }
+
+    if(choice == 1)
+    {
+        remove(filename); // Remove the temporary file
+    }
+    else
+    {
+        printf("The map is saved in the file %s\n", filename);
+        printf("You can find it in the same directory as this program.\n");
     }
 
     free(filename); // Free the filename allocated by mapName

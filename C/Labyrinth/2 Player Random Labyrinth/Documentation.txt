@@ -250,7 +250,17 @@ Then enter how long you want the map to be, and how wide you want it to be
 
     * The minimum size is 8*8
     * The maximum size is 40*57
-    * The recommened size is 30*30
+    * The recommended size is 30*30
+
+Then enter either '1' or '2' depending on whether or not you want to temporarily or permanently create the map
+
+    * 1 - Temporary - Creates a file with the map that is deleted when you lose, win or exit the game
+    * 2 - Permanent - Creates a file with the map, and doesn't get deleted
+  
+To get the best experience, ensure that any tabs on the left are closed. You can close them by clicking on the icon of whatever is open.
+
+    * If Explorer is highlighted and your folder is visible, just click on Explorer again to close it
+    * When your terminal is open, look at the top right of it and click on the arrow facing up, inbetween the '...' and the 'X', to make your terminal fullscreen
   
 12. Bugs
 ------------
