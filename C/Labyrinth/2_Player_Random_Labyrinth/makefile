@@ -61,4 +61,4 @@ clean :
 
 # zips the source code - make zip
 zip : clean
-	zip -r ../2_Player_Random_Labyrinth.zip . -x "*.o" "*.out" "*.exe" "*labyrinth"
+	zip -r ../2_Player_Random_Labyrinth.zip . -i "*.c" "*.h" "makefile" "README.txt"

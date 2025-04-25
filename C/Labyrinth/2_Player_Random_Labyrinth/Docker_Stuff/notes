@@ -1,0 +1,3 @@
+ive attempted to do a docker container, but it needs alot more work, the interactive terminal is very shoddy and im still figuring out how to and what to publish publicly
+
+take the dockerfile out of this folder when building and saving an image to it, then put it back in here

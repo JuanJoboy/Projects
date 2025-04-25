@@ -1,0 +1,1 @@
+docker run -it --rm -e TERM=xterm ghcr.io/juanjoboy/random-labyrinth:latest /app/labyrinth

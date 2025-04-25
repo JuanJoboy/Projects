@@ -1,0 +1,27 @@
+# Stage 1: Build stage
+FROM alpine AS builder
+ARG DARK_MODE
+
+# Set working directory
+WORKDIR /app
+
+# Install build dependencies using apk (Alpine's package manager)
+RUN apk update && apk add --no-cache make gcc g++ libc-dev
+
+# Copy the entire project to the container
+COPY . .
+
+# Build the executable using Makefile
+RUN if [ "$DARK_MODE" = "1" ]; then make DARK=1; else make; fi
+
+# Stage 2: Final minimal image
+FROM alpine:latest
+
+# Set working directory
+WORKDIR /app
+
+# Copy the compiled executable from the build stage
+COPY --from=builder /app/labyrinth /app/
+
+# Entry point:  Use CMD for flexibility.  ENTRYPOINT is less flexible.
+CMD ["/app/labyrinth"]

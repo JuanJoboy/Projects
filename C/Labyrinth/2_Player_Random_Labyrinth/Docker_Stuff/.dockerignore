@@ -1,0 +1,13 @@
+# Exclude build artifacts
+*.o
+*.a
+*.out
+*.log
+
+# Exclude version control directories
+.git
+.gitignore
+
+# Exclude IDE config files
+.vscode
+.idea

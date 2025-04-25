@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "mapWriter.h"
 #include "mapReader.h"
 #include "gameHandler.h"
@@ -138,6 +139,20 @@ void writeMap(char* filename)
     int shieldCounter = 0;
     int cardCounter = 0;
 
+    int area = (rows / 2) * (cols / 2);
+    int flashScaler = (int) ceil((area / 50) + 1);
+    int shieldScaler = (int) ceil((area / 50));
+    int cardScaler = (int) ceil((area / 50) - 1);
+
+    // Clamp values to min/max bounds
+    if(flashScaler > 8) flashScaler = 8;
+    if(shieldScaler > 6) shieldScaler = 6;
+    if(cardScaler > 5) cardScaler = 5;
+
+    if(flashScaler < 2) flashScaler = 2;
+    if(shieldScaler < 2) shieldScaler = 2;
+    if(cardScaler < 1) cardScaler = 1;
+
     FILE *file = fopen(filename, "w");
     fprintf(file, "%d %d\n", rows, cols); /* Writes the first line to the file with the rows and columns */
 
@@ -197,7 +212,7 @@ void writeMap(char* filename)
     }
 
     // Place 5 flashlights
-    while(flashlightCounter < 5)
+    while(flashlightCounter < flashScaler)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -223,7 +238,7 @@ void writeMap(char* filename)
     }
 
     // Place 4 shields
-    while(shieldCounter < 4)
+    while(shieldCounter < shieldScaler)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);
@@ -236,7 +251,7 @@ void writeMap(char* filename)
     }
 
     // Place 3 cards
-    while(cardCounter < 3)
+    while(cardCounter < cardScaler)
     {
         int i = randomUCP(0, rows-1);
         int j = randomUCP(0, cols-1);

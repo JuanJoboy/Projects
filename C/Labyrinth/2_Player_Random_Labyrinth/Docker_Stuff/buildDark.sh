@@ -1,0 +1,1 @@
+docker build . -t ghcr.io/juanjoboy/random-labyrinth:dark --build-arg DARK_MODE=1
