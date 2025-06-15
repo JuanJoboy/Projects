@@ -1,3 +1,35 @@
 ive attempted to do a docker container, but it needs alot more work, the interactive terminal is very shoddy and im still figuring out how to and what to publish publicly
 
+--------------------------
+
 take the dockerfile out of this folder when building and saving an image to it, then put it back in here
+
+-----------------------------------
+
+Create a new repo specifically for Labyrinth if we continue to use docker because the yaml file needs to be at the root
+Copilot says this below:
+
+"Yes, based on your git remote -v output, I can see that your workflow file is in the wrong repository structure. The workflow file is currently in: Projects/C/Labyrinth/2_Player_Random_Labyrinth/.github/workflows/
+
+But it should be in a repository specifically for your Labyrinth project. GitHub Actions workflows need to be in the root of the repository they're meant to run in. Here's what you should do:
+
+1. Create a new repository specifically for your Labyrinth project
+2. Initialize it with a new git repository:
+
+cd ~/Projects/C/Labyrinth/2_Player_Random_Labyrinth
+git init
+git add .
+git commit -m "Initial commit"
+
+3. Create a new repository on GitHub named "2_Player_Random_Labyrinth" (or similar)
+4. Link and push to the new repository:
+
+git remote add origin https://github.com/JuanJoboy/2_Player_Random_Labyrinth.git
+git branch -M main
+git push -u origin main
+
+This way, your .github/workflows folder will be at the root level of the repository that contains the actual project it's meant to build, and the Actions will trigger correctly.
+
+Currently, GitHub is looking for workflows in your "Projects" repository root, not in the nested Labyrinth project folder, which is why the Actions aren't showing up."
+
+-------------------------------------
