@@ -32,8 +32,6 @@ target/
 # Build Artifacts (C/C++)
 *.o
 *.obj
-*.exe
-*.dll
 *.so
 *.dylib
 *.a
@@ -68,7 +66,6 @@ target/
 
 # Additional Enhanced Patterns
 **/*.class
-**/*.exe
 **/*.out
 **/*.app
 **/*.i*86
@@ -87,70 +84,3 @@ target/
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "mapReader.h"
-#include "gameHandler.h"
-#include"random.h"
-
-char* mapName()
-{
-    char* filename = (char*)malloc(100 * sizeof(char));
-
-    if(filename == NULL)
-    {
-        perror("Memory allocation failed");
-        return NULL;
-    }
-    
-    do
-    {
-        printf("\n\nEnter the name of the file to write to: ");
-        scanf("%s", filename);
-    }
-    while(filename == NULL || strlen(filename) == 0);
-
-    filename = strcat(filename, ".txt");
-
-    return filename;
-}
-
-int rowDim()
-{
-    int rows;
-
-    do
-    {
-        printf("Enter the number of rows: ");
-        scanf("%d", &rows);
-        
-        if(rows < 3)
-        {
-            printf("Invalid input. Please enter a number above 3\n");
-        }
-    }
-    while(rows <= 3);
-
-    return rows;
-}
-
-int colDim()
-{
-    int cols;
-
-    do
-    {
-        printf("Enter the number of columns: ");
-        scanf("%d", &cols);
-        
-        if(cols < 3)
-        {
-            printf("Invalid input. Please enter a number above 3\n");
-        }
-    }
-    while(cols <= 3);
-
-    return cols;
-}
